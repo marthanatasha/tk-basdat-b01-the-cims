@@ -6,8 +6,7 @@ deploy:
   only:
     - main
   image: ruby:latest
-
-  script:
+  before_script:
     - gem install dpl
+  script:
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
-
