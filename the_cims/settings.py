@@ -77,8 +77,15 @@ WSGI_APPLICATION = 'the_cims.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'OPTIONS': {
+            'options': '-c search_path=the_cims,public'
+        },
+        'NAME': 'd4foj3malv9aj5',
+        'USER': 'qlgmpkydhikccg',
+        'PASSWORD': '72d9aa65ccc1374352f85d162b5509317b0b8ce7e295c454597e900a384297ac',
+        'HOST': 'ec2-18-210-64-223.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
