@@ -7,7 +7,8 @@
 </head>
 <body>
 <div class="container-md" style="margin-top: 15px;">
-  <form action="#"  th:action=""  method="post">
+  <form action=""  method="post">
+    {% csrf_token %}
     <div  class="form-group">
       <label for="username"><b>Username</b></label><br>
         <input class="form-control" type="text"  name="username" id="username" required>
