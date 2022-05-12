@@ -20,4 +20,5 @@ import authentication.urls as authentication
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path("", include(authentication)),
+    path("tokoh/", include("tokoh.urls")),
 ]
