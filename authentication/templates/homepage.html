@@ -81,7 +81,9 @@
         </li>
       </ul>
   </nav>
+  <div class="container-fluid" style="padding-top: 1%; padding-bottom: 1%; align-items: center; justify-content: center;">
   <p>Username: {{ username }}<p>
+  </div>
   {% endif %}
 
   {% if role == 'pemain' %}
@@ -95,7 +97,7 @@
             Tokoh
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Buat Tokoh</a>
+            <a class="dropdown-item" href="{% url 'create_tokoh' %}">Buat Tokoh</a>
             <a class="dropdown-item" href="{% url 'read_tokoh_pemain' %}">List Tokoh</a>
             <a class="dropdown-item" href="#">List Warna Kulit</a>
             <a class="dropdown-item" href="#">List Level</a>
@@ -158,11 +160,12 @@
         </li>
       </ul>
   </nav>
-
+  <div class="container-fluid" style="padding-top: 1%; padding-bottom: 1%; align-items: center; justify-content: center;">
   <p>Username: {{ username }}<p>
   <p>Email: {{ email }}<p>
   <p>No HP: {{ no_hp }}<p>
   <p>Koin: {{ koin }}<p>
+  </div>
   {% endif %}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
