@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import authentication.urls as authentication
+import menggunakan_barang.urls as menggunakan_barang
+import pekerjaan.urls as pekerjaan
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path("", include(authentication)),
+    path("", include(menggunakan_barang)),
+    path("", include(pekerjaan)),
 ]

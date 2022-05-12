@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <title>Update Pekerjaan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-md" style="margin-top: 15px;">
+  <form action=""  method="post">
+    {% csrf_token %}
+    <div  class="form-group">
+      <label for="nama_pekerjaan"><b>Nama Pekerjaan:</b></label><br>
+        <input class="form-control" type="text"  name="nama_pekerjaan" id="nama_pekerjaan" value="{{data.0}}" disabled required>
+    </div><br>
+
+    <div  class="form-group">
+      <label for="base_hoonor"><b>Base Honor:</b></label><br>
+      <input type="number" class="form-control"  name="base_honor" id="base_honor" value="{{data.1}}" required>
+    </div><br>
+
+    <button type="submit" class="btn btn-primary">Simpan</button>
+  </form>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html>

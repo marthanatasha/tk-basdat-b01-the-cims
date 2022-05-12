@@ -73,7 +73,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">List Menggunakan Apparel</a>
-              <a class="dropdown-item" href="#">List Menggunakan Barang</a>
+              <a class="dropdown-item" href="{% url 'read_menggunakan_barang' %}">List Menggunakan Barang</a>
             </div>
         </li>
         <li class="nav-item">
@@ -149,8 +149,8 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Buat Menggunakan Apparel</a>
               <a class="dropdown-item" href="#">List Menggunakan Apparel</a>
-              <a class="dropdown-item" href="#">Buat Menggunakan Barang</a>
-              <a class="dropdown-item" href="#">List Menggunakan Barang</a>
+              <a class="dropdown-item" href="{% url 'create_menggunakan_barang' %}">Buat Menggunakan Barang</a>
+              <a class="dropdown-item" href="{% url 'read_menggunakan_barang' %}">List Menggunakan Barang</a>
             </div>
         </li>
         <li class="nav-item">
