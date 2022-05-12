@@ -5,7 +5,7 @@ def homepage(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("authentication:/login")
+        return redirect("/login")
 
     args = {}
     if role == "admin":
