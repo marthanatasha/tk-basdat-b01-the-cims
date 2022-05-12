@@ -22,6 +22,10 @@ import pekerjaan.urls as pekerjaan
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path("", include(authentication)),
+<<<<<<< HEAD
     path("", include(menggunakan_barang)),
     path("", include(pekerjaan)),
+=======
+    path("tokoh/", include("tokoh.urls")),
+>>>>>>> 439c9f7e083684f8598a324d72aa524b87e8006b
 ]

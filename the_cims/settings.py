@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'authentication',
+<<<<<<< HEAD
     'menggunakan_barang',
     'pekerjaan'
+=======
+    'tokoh'
+>>>>>>> 439c9f7e083684f8598a324d72aa524b87e8006b
 ]
 
 MIDDLEWARE = [
