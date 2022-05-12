@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import read_tokoh_admin, read_tokoh_pemain, create_tokoh
+app_name = 'tokoh'
 
 urlpatterns = [
 	path('read_tokoh_admin/', read_tokoh_admin, name='read_tokoh_admin'),

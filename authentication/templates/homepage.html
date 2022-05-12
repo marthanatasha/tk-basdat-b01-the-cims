@@ -18,9 +18,9 @@
             Tokoh
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'read_tokoh_admin' %}">List Tokoh</a>
-            <a class="dropdown-item" href="#">Buat Warna Kulit</a>
-            <a class="dropdown-item" href="#">List Warna Kulit</a>
+            <a class="dropdown-item" href="{% url 'tokoh:read_tokoh_admin' %}">List Tokoh</a>
+            <a class="dropdown-item" href="{% url 'warna_kulit:create_warna_kulit' %}">Buat Warna Kulit</a>
+            <a class="dropdown-item" href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a>
             <a class="dropdown-item" href="#">Buat Level</a>
             <a class="dropdown-item" href="#">List Level</a>
           </div>
@@ -97,9 +97,9 @@
             Tokoh
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'create_tokoh' %}">Buat Tokoh</a>
-            <a class="dropdown-item" href="{% url 'read_tokoh_pemain' %}">List Tokoh</a>
-            <a class="dropdown-item" href="#">List Warna Kulit</a>
+            <a class="dropdown-item" href="{% url 'tokoh:create_tokoh' %}">Buat Tokoh</a>
+            <a class="dropdown-item" href="{% url 'tokoh:read_tokoh_pemain' %}">List Tokoh</a>
+            <a class="dropdown-item" href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a>
             <a class="dropdown-item" href="#">List Level</a>
           </div>
         </li>

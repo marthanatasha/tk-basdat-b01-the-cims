@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	path("", include(authentication)),
     path("tokoh/", include("tokoh.urls")),
+    path("warna_kulit/", include("warna_kulit.urls")),
 ]

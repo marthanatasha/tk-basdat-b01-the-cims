@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'authentication',
-    'tokoh'
+    'tokoh', 
+    'warna_kulit'
 ]
 
 MIDDLEWARE = [
