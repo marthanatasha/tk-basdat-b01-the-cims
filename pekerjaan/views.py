@@ -91,9 +91,9 @@ def read_bekerja(request):
             cursor.execute("""
                 SELECT ROW_NUMBER() OVER (), 
                 username_pengguna, 
-                nama_tokoh, 
-                to_char(timestamp, 'DD-MM-YYYY HH24:MI'), 
+                nama_tokoh,  
                 nama_pekerjaan, 
+                to_char(timestamp, 'DD-MM-YYYY HH24:MI'),
                 keberangkatan_ke, 
                 honor 
                 FROM bekerja""")
@@ -104,8 +104,8 @@ def read_bekerja(request):
             cursor.execute("""
                 SELECT ROW_NUMBER() OVER (), 
                 nama_tokoh, 
-                to_char(timestamp, 'DD-MM-YYYY HH24:MI'), 
                 nama_pekerjaan, 
+                to_char(timestamp, 'DD-MM-YYYY HH24:MI'), 
                 keberangkatan_ke, 
                 honor 
                 FROM bekerja 
