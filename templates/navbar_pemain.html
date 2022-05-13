@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Tokoh
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'tokoh:create_tokoh' %}">Buat Tokoh</a>
+            <a class="dropdown-item" href="{% url 'tokoh:read_tokoh_pemain' %}">List Tokoh</a>
+            <a class="dropdown-item" href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a>
+            <a class="dropdown-item" href="{% url 'level:read_level' %}">List Level</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Pekerjaan
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'read_pekerjaan' %}">List Pekerjaan</a>
+              <a class="dropdown-item" href="{% url 'create_bekerja' %}">Buat Bekerja</a>
+              <a class="dropdown-item" href="{% url 'read_bekerja' %}">List Bekerja</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Misi
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">List Misi Utama</a>
+              <a class="dropdown-item" href="#">Buat Menjalankan Misi Utama</a>
+              <a class="dropdown-item" href="#">List Menjalankan Misi Utama</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Makan
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">List Makanan</a>
+              <a class="dropdown-item" href="#">Buat Makan</a>
+              <a class="dropdown-item" href="#">List Makan</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Koleksi
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">List Koleksi</a>
+              <a class="dropdown-item" href="#">List Kategori Apparel</a>
+              <a class="dropdown-item" href="#">Buat Koleksi Tokoh</a>
+              <a class="dropdown-item" href="#">List Koleksi Tokoh</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Penggunaan
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'menggunakan_apparel:create_menggunakan_apparel' %}">Buat Menggunakan Apparel</a>
+              <a class="dropdown-item" href="{% url 'menggunakan_apparel:read_menggunakan_apparel_pemain' %}">List Menggunakan Apparel</a>
+              <a class="dropdown-item" href="{% url 'create_menggunakan_barang' %}">Buat Menggunakan Barang</a>
+              <a class="dropdown-item" href="{% url 'read_menggunakan_barang' %}">List Menggunakan Barang</a>
+            </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      </ul>
+  </nav>
