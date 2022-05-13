@@ -32,7 +32,7 @@
                 <td>{{lvl.level}} </td>
                 <td>{{lvl.xp}} </td>
                 {% if request.session.role == 'admin' %}
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a><br>
+                <td><a href="/level/update_level/{{ lvl.level }}" style="color: blue; cursor: pointer;">Update</a><br>
                     <a href="{% url 'home' %}" style="color: red; cursor: pointer;">Delete</a></td>
                 {% endif %}
             </tr>
