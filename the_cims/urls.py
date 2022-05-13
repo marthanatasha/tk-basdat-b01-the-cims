@@ -29,5 +29,6 @@ urlpatterns = [
     path("level/", include("level.urls")),
     path("menggunakan_apparel/", include("menggunakan_apparel.urls")),
     path("misi_utama/", include("misi_utama.urls")),
-    path("menjalankan_misi_utama/", include("menjalankan_misi_utama.urls"))
+    path("menjalankan_misi_utama/", include("menjalankan_misi_utama.urls")),
+    path("makanan/", include("makanan.urls"))
 ]
