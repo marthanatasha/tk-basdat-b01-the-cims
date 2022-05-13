@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'warna_kulit',
     'level',
     'menggunakan_apparel',
+    'misi_utama',
 ]
 
 MIDDLEWARE = [

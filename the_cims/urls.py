@@ -28,4 +28,5 @@ urlpatterns = [
     path("warna_kulit/", include("warna_kulit.urls")),
     path("level/", include("level.urls")),
     path("menggunakan_apparel/", include("menggunakan_apparel.urls")),
+    path("misi_utama/", include("misi_utama.urls"))
 ]

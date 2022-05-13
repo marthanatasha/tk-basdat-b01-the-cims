@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Misi Utama</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+        </div>
+    </nav>
+    <h1 class="text-center">DETAIL MISI UTAMA</h1>
+                {% for misi in detailmisi %}
+                    <p>Nama: {{ misi.nama }}<p>
+                    <p>Efek Energi: {{ misi.efek_energi }}<p>
+                    <p>Efek Hubungan Sosial: {{ misi.efek_hubungan_sosial }}<p>
+                    <p>Efek Kelaparan: {{ misi.efek_kelaparan }}<p>
+                    <p>Syarat Energi: {{ misi.syarat_energi }}<p>
+                    <p>Syarat Hubungan Sosial: {{ misi.syarat_hubungan_sosial }}<p>
+                    <p>Syarat Kelaparan: {{ misi.syarat_kelaparan }}<p>
+                    <p>Completion Time: {{ misi.completion_time }}<p>
+                    <p>Reward Koin: {{ misi.reward_koin }}<p>
+                    <p>Reward XP: {{ misi.reward_xp }}<p>
+                {% endfor %}
+        </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html>
