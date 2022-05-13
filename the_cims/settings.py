@@ -42,7 +42,10 @@ INSTALLED_APPS = [
 	'authentication',
     'menggunakan_barang',
     'pekerjaan',
-    'tokoh'
+    'tokoh', 
+    'warna_kulit',
+    'level',
+    'menggunakan_apparel',
 ]
 
 MIDDLEWARE = [

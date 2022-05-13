@@ -18,34 +18,25 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jenis Kelamin</th>
-                <th scope="col">Status</th>
-                <th scope="col">XP</th>
-                <th scope="col">Energi</th>
-                <th scope="col">Kelaparan</th>
-                <th scope="col">Hubungan Sosial</th>
-                <th scope="col">Level</th>
+                <th scope="col">Nama Tokoh</th>
+                <th scope="col">Nama Apparel</th>
+                <th scope="col">Warna</th>
+                <th scope="col">Nama Pekerjaan</th>
+                <th scope="col">Kategori</th>
                 <th scope="col">Action</th>
-                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
     
-            {% for st in semuatokohpemain %}
+            {% for sm in semuamenggunakan_apparelpemain %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{st.nama}} </td>
-                <td>{{st.jenis_kelamin}} </td>
-                <td>{{st.status}} </td>
-                <td>{{st.xp}} </td>
-                <td>{{st.energi}} </td>
-                <td>{{st.kelaparan}} </td>
-                <td>{{st.hubungan_sosial}} </td>
-                <td>{{st.level}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Detail</a><br>
-                    <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a>
-                </td>
+                <td>{{sm.nama_tokoh}} </td>
+                <td>{{sm.nama}} </td>
+                <td>{{sm.warna_apparel}} </td>
+                <td>{{sm.nama_pekerjaan}} </td>
+                <td>{{sm.kategori_apparel}} </td>
+                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Lepas</a></td></td>
             </tr>
     
             {% endfor %}

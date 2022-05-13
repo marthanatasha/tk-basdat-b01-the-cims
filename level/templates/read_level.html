@@ -12,47 +12,35 @@
           <a class="navbar-brand" href="{% url 'home' %}">Home</a>
         </div>
     </nav>
-    {% if request.session.role == 'pemain' %}
-    <h1 class="text-center">Daftar Tokoh</h1>
+    <h1 class="text-center">Daftar Warna Kulit</h1>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jenis Kelamin</th>
-                <th scope="col">Status</th>
-                <th scope="col">XP</th>
-                <th scope="col">Energi</th>
-                <th scope="col">Kelaparan</th>
-                <th scope="col">Hubungan Sosial</th>
                 <th scope="col">Level</th>
+                <th scope="col">XP</th>
+                {% if request.session.role == 'admin' %}
                 <th scope="col">Action</th>
-                <th scope="col"></th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
     
-            {% for st in semuatokohpemain %}
+            {% for lvl in semualevel %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{st.nama}} </td>
-                <td>{{st.jenis_kelamin}} </td>
-                <td>{{st.status}} </td>
-                <td>{{st.xp}} </td>
-                <td>{{st.energi}} </td>
-                <td>{{st.kelaparan}} </td>
-                <td>{{st.hubungan_sosial}} </td>
-                <td>{{st.level}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Detail</a><br>
-                    <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a>
-                </td>
+                <td>{{lvl.level}} </td>
+                <td>{{lvl.xp}} </td>
+                {% if request.session.role == 'admin' %}
+                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a><br>
+                    <a href="{% url 'home' %}" style="color: red; cursor: pointer;">Delete</a></td>
+                {% endif %}
             </tr>
     
             {% endfor %}
     
         </tbody>
     </table>  
-  {% endif %}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>
