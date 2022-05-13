@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.db import connection, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
 
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
@@ -64,7 +65,7 @@ def create_menggunakan_apparel(request):
                     INSERT INTO MENGGUNAKAN_APPAREL VALUES 
                     ('{request.session['username']}',
                     '{request.POST['nama_tokoh']}',
-                    '{request.POST['id_koleksi']}')
+                    '{request.POST['apparel']}')
                 """)
 
                 return redirect("menggunakan_apparel:read_menggunakan_apparel_pemain")
@@ -72,9 +73,21 @@ def create_menggunakan_apparel(request):
             messages.add_message(request, messages.WARNING, "Data menggunakan_apparel dengan nama {request.POST['nama_menggunakan_apparel']} sudah terdaftar")
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT NAMA_TOKOH FROM MENGGUNAKAN_APPAREL WHERE USERNAME_PENGGUNA = %s;", [request.session['username']])
-        context = {"list_nama" : cursor.fetchall()}
-        cursor.execute("SELECT DISTINCT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE ID_KOLEKSI LIKE 'AP%' ORDER BY ID_KOLEKSI ASC")
-        context["list_apparel"] = cursor.fetchall()
+        cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
+        tokoh = cursor.fetchall()
 
-        return render(request, "create_menggunakan_apparel.html", context)
+    return render(request, "create_menggunakan_apparel.html", {"tokoh":tokoh})
+
+@csrf_exempt
+def get_apparel(request):
+    try:
+        role = request.session["role"]
+    except:
+        return redirect("/login-dan-register")
+        
+    if request.method == "POST":
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE ID_KOLEKSI LIKE 'AP%' AND USERNAME_PENGGUNA='{}' AND NAMA_TOKOH='{}' ORDER BY ID_KOLEKSI ASC".format(request.session['username'], request.POST['nama_tokoh']))
+            apparel = cursor.fetchall()
+        return JsonResponse({'apparel': apparel})
+    return HttpResponse("<h1>Method not allowed</h1>", status=405)
