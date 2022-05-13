@@ -26,12 +26,25 @@ def read_menggunakan_barang(request):
 
     with connection.cursor() as cursor:
         if(role == "admin"):
-            cursor.execute("SELECT ROW_NUMBER() OVER (), username_pengguna, nama_tokoh, to_char(waktu, 'DD/MM/YYYY HH24:MI'), id_barang FROM menggunakan_barang")
+            cursor.execute("""
+                SELECT ROW_NUMBER() OVER (), 
+                mb.username_pengguna, 
+                mb.nama_tokoh, 
+                k.nama, 
+                to_char(waktu, 'DD/MM/YYYY HH24:MI') 
+                FROM menggunakan_barang mb, koleksi_jual_beli k
+                WHERE mb.id_barang=k.id_koleksi""")
             row = cursor.fetchall()
             return render(request, "read_menggunakan_barang.html", {"role":"admin", "data":row})
 
         else:
-            cursor.execute("SELECT ROW_NUMBER() OVER (), nama_tokoh, to_char(waktu, 'DD/MM/YYYY HH24:MI'), id_barang FROM menggunakan_barang WHERE username_pengguna='{}'".format(request.session['username']))
+            cursor.execute("""
+                SELECT ROW_NUMBER() OVER (), 
+                mb.nama_tokoh, 
+                k.nama, 
+                to_char(mb.waktu, 'DD/MM/YYYY HH24:MI') 
+                FROM menggunakan_barang mb, koleksi_jual_beli k
+                WHERE mb.id_barang=k.id_koleksi AND username_pengguna='{}'""".format(request.session['username']))
             row = cursor.fetchall()
             return render(request, "read_menggunakan_barang.html", {"role":"pemain", "data":row})
 
@@ -41,7 +54,7 @@ def get_barang(request):
         role = request.session["role"]
     except:
         return redirect("/login-dan-register")
-        
+
     if request.method == "POST":
         with connection.cursor() as cursor:
             cursor.execute("SELECT id_koleksi FROM koleksi_tokoh WHERE username_pengguna='{}' AND nama_tokoh='{}'".format(request.session['username'], request.POST['nama_tokoh']))
