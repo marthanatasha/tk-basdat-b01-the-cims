@@ -30,9 +30,9 @@
               Pekerjaan
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Buat Pekerjaan</a>
-              <a class="dropdown-item" href="#">List Pekerjaan</a>
-              <a class="dropdown-item" href="#">List Bekerja</a>
+              <a class="dropdown-item" href="{% url 'create_pekerjaan' %}">Buat Pekerjaan</a>
+              <a class="dropdown-item" href="{% url 'read_pekerjaan' %}">List Pekerjaan</a>
+              <a class="dropdown-item" href="{% url 'read_bekerja' %}">List Bekerja</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -106,9 +106,9 @@
               Pekerjaan
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">List Pekerjaan</a>
-              <a class="dropdown-item" href="#">Buat Bekerja</a>
-              <a class="dropdown-item" href="#">List Bekerja</a>
+              <a class="dropdown-item" href="{% url 'read_pekerjaan' %}">List Pekerjaan</a>
+              <a class="dropdown-item" href="{% url 'create_bekerja' %}">Buat Bekerja</a>
+              <a class="dropdown-item" href="{% url 'read_bekerja' %}">List Bekerja</a>
             </div>
         </li>
         <li class="nav-item dropdown">

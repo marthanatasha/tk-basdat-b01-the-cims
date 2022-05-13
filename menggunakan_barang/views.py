@@ -4,7 +4,6 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 def create_menggunakan_barang(request):
-    role = None
     try:
         role = request.session["role"]
     except:
@@ -19,7 +18,6 @@ def create_menggunakan_barang(request):
     return render(request, "create_menggunakan_barang.html", {"tokoh":tokoh})
 
 def read_menggunakan_barang(request):
-    role = None
     try:
         role = request.session["role"]
     except:
