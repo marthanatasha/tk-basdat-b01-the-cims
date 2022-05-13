@@ -34,7 +34,7 @@ def create_level(request):
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
-                    INSERT INTO level VALUES 
+                    INSERT INTO LEVEL VALUES 
                     ('{request.POST['tingkatan_level']}',
                     '{request.POST['jumlah_xp']}')
                 """)
@@ -47,26 +47,25 @@ def create_level(request):
         context = {}
         return render(request, "create_level.html", context)
 
-def update_level(request, level):
+def update_level(request, tingkat_level):
     if request.session["role"] == "pemain":
         return redirect("/")
+
+    with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM LEVEL WHERE LEVEL='{}'".format(tingkat_level))
+            data = cursor.fetchall()
 
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
-                    INSERT INTO level VALUES 
-                    ('{request.POST['tingkatan_level']}',
-                    '{request.POST['jumlah_xp']}')
+                    UPDATE LEVEL 
+                    SET xp='{request.POST['jumlah_xp']}'
+                    WHERE LEVEL = '{tingkat_level}'
                 """)
-
                 return redirect("level:read_level")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['tingkatan_level']} sudah terdaftar")
-
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM LEVEL WHERE LEVEL='{}'".format(level))
-        data = cursor.fetchall()
 
     if len(data)<=0:
         return HttpResponse("<h1>Page not found</h1>", status=404)
