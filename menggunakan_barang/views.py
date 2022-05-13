@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,7 +7,7 @@ def create_menggunakan_barang(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
     if role == 'admin':
         return HttpResponse("<h1>Page not found</h1>", status=404)
@@ -21,7 +21,7 @@ def read_menggunakan_barang(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
 
     with connection.cursor() as cursor:
@@ -37,6 +37,11 @@ def read_menggunakan_barang(request):
 
 @csrf_exempt
 def get_barang(request):
+    try:
+        role = request.session["role"]
+    except:
+        return redirect("/login-dan-register")
+        
     if request.method == "POST":
         with connection.cursor() as cursor:
             cursor.execute("SELECT id_koleksi FROM koleksi_tokoh WHERE username_pengguna='{}' AND nama_tokoh='{}'".format(request.session['username'], request.POST['nama_tokoh']))

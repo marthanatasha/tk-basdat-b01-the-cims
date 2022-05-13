@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.http import JsonResponse, HttpResponse
 
@@ -6,7 +6,7 @@ def create_pekerjaan(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
     if role == "pemain":
         return HttpResponse("<h1>Page not found</h1>", status=404)
@@ -17,7 +17,7 @@ def read_pekerjaan(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login_dan_register")
 
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -44,7 +44,7 @@ def update_pekerjaan(request, nama):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
     if role == "pemain":
         return HttpResponse("<h1>Page not found</h1>", status=404)
@@ -61,7 +61,7 @@ def create_bekerja(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login_dan_register")
 
     if role == "admin":
         return HttpResponse("<h1>Page not found</h1>", status=404)
@@ -83,7 +83,7 @@ def read_bekerja(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
 
     with connection.cursor() as cursor:

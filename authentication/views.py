@@ -5,7 +5,7 @@ def homepage(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login")
+        return redirect("/login-dan-register")
 
     args = {}
     if role == "admin":
@@ -18,6 +18,9 @@ def homepage(request):
         args["no_hp"] = request.session["no_hp"]
         args["koin"] = request.session["koin"]
     return render(request, "homepage.html", args)
+
+def login_dan_register(request):
+    return render(request, "login_dan_register.html")
 
 def	login(request):
     if request.method == "POST":
@@ -45,7 +48,7 @@ def	login(request):
 
 def logout(request):
     request.session.flush()
-    return redirect("/login")
+    return redirect("/login-dan-register")
 
 def register_admin(request):
     return render(request, "register_admin.html")
