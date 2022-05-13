@@ -21,8 +21,8 @@
             <a class="dropdown-item" href="{% url 'tokoh:read_tokoh_admin' %}">List Tokoh</a>
             <a class="dropdown-item" href="{% url 'warna_kulit:create_warna_kulit' %}">Buat Warna Kulit</a>
             <a class="dropdown-item" href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a>
-            <a class="dropdown-item" href="#">Buat Level</a>
-            <a class="dropdown-item" href="#">List Level</a>
+            <a class="dropdown-item" href="{% url 'level:create_level' %}">Buat Level</a>
+            <a class="dropdown-item" href="{% url 'level:read_level' %}">List Level</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
               Penggunaan
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">List Menggunakan Apparel</a>
+              <a class="dropdown-item" href="{% url 'menggunakan_apparel:read_menggunakan_apparel_admin' %}">List Menggunakan Apparel</a>
               <a class="dropdown-item" href="#">List Menggunakan Barang</a>
             </div>
         </li>
@@ -100,7 +100,7 @@
             <a class="dropdown-item" href="{% url 'tokoh:create_tokoh' %}">Buat Tokoh</a>
             <a class="dropdown-item" href="{% url 'tokoh:read_tokoh_pemain' %}">List Tokoh</a>
             <a class="dropdown-item" href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a>
-            <a class="dropdown-item" href="#">List Level</a>
+            <a class="dropdown-item" href="{% url 'level:read_level' %}">List Level</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -149,8 +149,8 @@
               Penggunaan
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Buat Menggunakan Apparel</a>
-              <a class="dropdown-item" href="#">List Menggunakan Apparel</a>
+              <a class="dropdown-item" href="{% url 'menggunakan_apparel:create_menggunakan_apparel' %}">Buat Menggunakan Apparel</a>
+              <a class="dropdown-item" href="{% url 'menggunakan_apparel:read_menggunakan_apparel_pemain' %}">List Menggunakan Apparel</a>
               <a class="dropdown-item" href="#">Buat Menggunakan Barang</a>
               <a class="dropdown-item" href="#">List Menggunakan Barang</a>
             </div>

@@ -18,30 +18,31 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
-def read_warna_kulit(request):
+def read_level(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM WARNA_KULIT")
+        cursor.execute("SELECT * FROM LEVEL")
         tabel = dictfetchall(cursor)
-    context = {'semuawarnakulit': tabel}
-    return render(request, 'read_warna_kulit.html', context)
+    context = {'semualevel': tabel}
+    return render(request, 'read_level.html', context)
  
 @csrf_exempt
-def create_warna_kulit(request):
+def create_level(request):
     if request.session['role'] == 'pemain':
-        messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan warna_kulit")
+        messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan level")
         return redirect("/")
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
-                    INSERT INTO WARNA_KULIT VALUES 
-                    ('{request.POST['kode_warna_kulit']}')
+                    INSERT INTO level VALUES 
+                    ('{request.POST['tingkatan_level']}',
+                    '{request.POST['jumlah_xp']}')
                 """)
 
-                return redirect("warna_kulit:read_warna_kulit")
+                return redirect("level:read_level")
         except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data warna_kulit dengan nama {request.POST['nama_warna_kulit']} sudah terdaftar")
+            messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['tingkatan_level']} sudah terdaftar")
 
     with connection.cursor() as cursor:
         context = {}
-        return render(request, "create_warna_kulit.html", context)
+        return render(request, "create_level.html", context)

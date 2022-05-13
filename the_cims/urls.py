@@ -22,4 +22,6 @@ urlpatterns = [
 	path("", include(authentication)),
     path("tokoh/", include("tokoh.urls")),
     path("warna_kulit/", include("warna_kulit.urls")),
+    path("level/", include("level.urls")),
+    path("menggunakan_apparel/", include("menggunakan_apparel.urls")),
 ]

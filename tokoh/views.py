@@ -67,9 +67,8 @@ def create_tokoh(request):
                     'MT001',
                     'RM001')
                 """)
-                messages.add_message(request, messages.SUCCESS, "Data tokoh berhasil disimpan!")
 
-                return redirect("tokoh:create_tokoh")
+                return redirect("tokoh:read_tokoh")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data tokoh dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
 

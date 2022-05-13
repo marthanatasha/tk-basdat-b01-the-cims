@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'authentication',
     'tokoh', 
-    'warna_kulit'
+    'warna_kulit',
+    'level',
+    'menggunakan_apparel',
 ]
 
 MIDDLEWARE = [
