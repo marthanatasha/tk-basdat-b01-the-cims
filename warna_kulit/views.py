@@ -20,7 +20,15 @@ def dictfetchall(cursor):
 
 def read_warna_kulit(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM WARNA_KULIT")
+        cursor.execute("""
+            SELECT 
+            ROW_NUMBER() OVER (), 
+            *, 
+            CASE WHEN KODE NOT IN(
+                SELECT WARNA_KULIT FROM TOKOH
+            ) THEN true else false
+            END AS deletable 
+            FROM WARNA_KULIT""")
         tabel = dictfetchall(cursor)
     context = {'semuawarnakulit': tabel}
     return render(request, 'read_warna_kulit.html', context)
@@ -45,3 +53,18 @@ def create_warna_kulit(request):
     with connection.cursor() as cursor:
         context = {}
         return render(request, "create_warna_kulit.html", context)
+
+def delete_warna_kulit(request):
+    if request.session["role"] == "pemain":
+        return redirect("/")
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    DELETE FROM WARNA_KULIT 
+                    WHERE KODE = '{request.POST['kode_kulit']}'
+                """)
+                return redirect("warna_kulit:read_warna_kulit")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data level dengan nama '{request.POST['kode_kulit']}' sudah direfer oleh setidaknya 1 tokoh")

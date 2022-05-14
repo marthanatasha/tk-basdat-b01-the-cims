@@ -20,7 +20,15 @@ def dictfetchall(cursor):
 
 def read_level(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM LEVEL")
+        cursor.execute("""
+            SELECT 
+            ROW_NUMBER() OVER (), 
+            *, 
+            CASE WHEN LEVEL NOT IN(
+                SELECT LEVEL FROM TOKOH
+            ) THEN true else false
+            END AS deletable 
+            FROM LEVEL""")
         tabel = dictfetchall(cursor)
     context = {'semualevel': tabel}
     return render(request, 'read_level.html', context)
@@ -70,3 +78,19 @@ def update_level(request, tingkat_level):
     if len(data)<=0:
         return HttpResponse("<h1>Page not found</h1>", status=404)
     return render(request, "update_level.html", {"data":data[0]})
+
+def delete_level(request):
+    if request.session["role"] == "pemain":
+        return redirect("/")
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    DELETE FROM LEVEL 
+                    WHERE LEVEL = '{request.POST['tingkat_level']}'
+                """)
+                return redirect("level:read_level")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data level dengan nama '{request.POST['tingkat_level']}' sudah direfer oleh setidaknya 1 tokoh")
+

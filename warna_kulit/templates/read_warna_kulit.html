@@ -30,7 +30,15 @@
                 <td>{{forloop.counter}}</td>
                 <td>{{wk.kode}} </td>
                 {% if request.session.role == 'admin' %}
-                <td><a href="{% url 'home' %}" style="color: red; cursor: pointer;">Delete</a></td>
+                <td>
+                    {% if wk.deletable == True %}
+                    <form method="POST" action="{% url 'warna_kulit:delete_warna_kulit' %}">
+                        {% csrf_token %}
+                        <input name="kode_kulit" value="{{wk.kode}}" hidden>
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>        
+                    {% endif %}
+                </td>
                 {% endif %}
             </tr>
     

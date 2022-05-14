@@ -25,7 +25,7 @@ def read_menggunakan_apparel_admin(request):
         NAMA, 
         WARNA_APPAREL, 
         NAMA_PEKERJAAN, 
-        KATEGORI_APPAREL 
+        KATEGORI_APPAREL
         FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB
         WHERE MP.ID_KOLEKSI = P.ID_KOLEKSI
         AND MP.ID_KOLEKSI = KJB.ID_KOLEKSI
@@ -43,7 +43,8 @@ def read_menggunakan_apparel_pemain(request):
         NAMA, 
         WARNA_APPAREL, 
         NAMA_PEKERJAAN, 
-        KATEGORI_APPAREL 
+        KATEGORI_APPAREL,
+        MP.ID_KOLEKSI
         FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB
         WHERE MP.ID_KOLEKSI = P.ID_KOLEKSI
         AND MP.ID_KOLEKSI = KJB.ID_KOLEKSI
@@ -80,14 +81,26 @@ def create_menggunakan_apparel(request):
 
 @csrf_exempt
 def get_apparel(request):
-    try:
-        role = request.session["role"]
-    except:
-        return redirect("/login-dan-register")
-        
     if request.method == "POST":
         with connection.cursor() as cursor:
             cursor.execute("SELECT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE ID_KOLEKSI LIKE 'AP%' AND USERNAME_PENGGUNA='{}' AND NAMA_TOKOH='{}' ORDER BY ID_KOLEKSI ASC".format(request.session['username'], request.POST['nama_tokoh']))
             apparel = cursor.fetchall()
         return JsonResponse({'apparel': apparel})
     return HttpResponse("<h1>Method not allowed</h1>", status=405)
+
+def delete_menggunakan_apparel(request):
+    if request.session["role"] == "admin":
+        return redirect("/")
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    DELETE FROM MENGGUNAKAN_APPAREL
+                    WHERE ID_KOLEKSI = '{request.POST['id_apparel']}'
+                    AND USERNAME_PENGGUNA = '{request.session['username']}'
+                    AND NAMA_TOKOH = '{request.POST['tokoh']}'
+                """)
+                return redirect("menggunakan_apparel:read_menggunakan_apparel_pemain")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data level dengan nama '{request.POST['id_apparel']}' sudah direfer oleh setidaknya 1 tokoh")

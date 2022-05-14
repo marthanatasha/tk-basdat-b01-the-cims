@@ -36,7 +36,14 @@
                 <td>{{sm.warna_apparel}} </td>
                 <td>{{sm.nama_pekerjaan}} </td>
                 <td>{{sm.kategori_apparel}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Lepas</a></td></td>
+                <td>
+                    <form method="POST" action="{% url 'menggunakan_apparel:delete_menggunakan_apparel' %}">
+                        {% csrf_token %}
+                        <input name="id_apparel" value="{{sm.id_koleksi}}" hidden>
+                        <input name="tokoh" value="{{sm.nama_tokoh}}" hidden>
+                        <input class="btn btn-danger" type="submit" value="Lepas">
+                    </form>
+                </td>
             </tr>
     
             {% endfor %}

@@ -32,8 +32,15 @@
                 <td>{{lvl.level}} </td>
                 <td>{{lvl.xp}} </td>
                 {% if request.session.role == 'admin' %}
-                <td><a href="/level/update_level/{{ lvl.level }}" style="color: blue; cursor: pointer;">Update</a><br>
-                    <a href="{% url 'home' %}" style="color: red; cursor: pointer;">Delete</a></td>
+                <td><a class="btn btn-primary" href="/level/update_level/{{ lvl.level }}">Update</a>
+                    {% if lvl.deletable == True %}
+                    <form method="POST" action="{% url 'level:delete_level' %}">
+                        {% csrf_token %}
+                        <input name="tingkat_level" value="{{lvl.level}}" hidden>
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>     
+                    {% endif %}
+                </td>
                 {% endif %}
             </tr>
     
