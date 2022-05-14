@@ -33,3 +33,38 @@ def read_menjalankan_misi_utama_pemain(request):
         tabel = dictfetchall(cursor)
     context = {'menjalankanmisiutama': tabel}
     return render(request, 'read_menjalankan_misi_utama.html', context)
+
+@csrf_exempt
+def create_menjalankan_misi_utama(request):
+    # if request.session['role'] == 'admin':
+    #     messages.add_message(request, messages.WARNING, f"Hanya pemain yang dapat menambahkan menggunakan_apparel")
+    #     return redirect("/")
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    INSERT INTO MENJALANKAN_MISI_UTAMA VALUES 
+                    ('{request.session['username']}',
+                    '{request.POST['nama_tokoh']}',
+                    '{request.POST['nama_misi']}'),
+                     '{request.POST['status']}'
+                """)
+
+                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data menjalankan misi dengan nama {request.POST['nama_misi']} sudah terdaftar")
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
+        tokoh = cursor.fetchall()
+
+    return render(request, "create_menjalankan_misi_utama.html", {"tokoh":tokoh})
+
+@csrf_exempt
+def get_misi_utama(request):
+    if request.method == "POST":
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT nama_misi FROM MISI_UTAMA")
+            misiutama = cursor.fetchall()
+        return JsonResponse({'misiutama': misiutama})
+    return HttpResponse("<h1>Method not allowed</h1>", status=405)

@@ -30,7 +30,7 @@
               Misi
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Buat Misi Utama</a>
+              <a class="dropdown-item" href="{% url 'misi_utama:create_misi_utama' %}">Buat Misi Utama</a>
               <a class="dropdown-item" href="{% url 'misi_utama:read_misi_utama_admin' %}">List Misi Utama</a>
               <a class="dropdown-item" href="{% url 'menjalankan_misi_utama:read_menjalankan_misi_utama_admin' %}">List Menjalankan Misi Utama</a>
             </div>
@@ -40,7 +40,7 @@
               Makan
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Buat Makanan</a>
+              <a class="dropdown-item" href="{% url 'makanan:create_makanan' %}">Buat Makanan</a>
               <a class="dropdown-item" href="{% url 'makanan:read_makanan_admin' %}">List Makanan</a>
               <a class="dropdown-item" href="{% url 'makan:read_makan_admin' %}">List Makan</a>
             </div>

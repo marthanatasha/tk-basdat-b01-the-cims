@@ -33,3 +33,27 @@ def read_makanan_pemain(request):
         tabel = dictfetchall(cursor)
     context = {'makanan': tabel}
     return render(request, 'read_makanan.html', context)
+
+@csrf_exempt
+def create_makanan(request):
+    # if request.session['role'] == 'pemain':
+    #     messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan level")
+    #     return redirect("/")
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    INSERT INTO MAKANAN VALUES 
+                    ('{request.POST['nama_makanan']}',
+                    '{request.POST['harga']}'),
+                    '{request.POST['tingkat_energi']}'),
+                    '{request.POST['tingkat_kelaparan']}')
+                """)
+
+                return redirect("makanan:read_makanan")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data makanan dengan nama {request.POST['nama_makanan']} sudah terdaftar")
+
+    with connection.cursor() as cursor:
+        context = {}
+        return render(request, "create_makanan.html", context)
