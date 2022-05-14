@@ -12,17 +12,15 @@
           <a class="navbar-brand" href="{% url 'home' %}">Home</a>
         </div>
     </nav>
-    {% if request.session.role == 'admin' %}
     <h1 class="text-center">Detail Tokoh</h1>
-                {% for st in semuatokoh %}
-                    <p>Nama: {{ st.username_pengguna }}<p>
+                {% for st in detailtokoh %}
+                    <p>Nama: {{ st.nama }}<p>
                     <p>ID Mata: {{ st.id_mata }}<p>
-                    <p>ID Rambut: {{ st_id_rambut }}<p>
+                    <p>ID Rambut: {{ st.id_rambut }}<p>
                     <p>ID Rumah: {{ st.id_rumah }}<p>
                     <p>Warna Kulit: {{ st.warna_kulit }}<p>
                     <p>Pekerjaan: {{ st.pekerjaan }}<p>
                 {% endfor %}
-            {% endif %}
         </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>

@@ -20,16 +20,17 @@ def read_menggunakan_apparel_admin(request):
     if request.session['role'] == 'pemain':
         return redirect("/")
     with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT USERNAME_PENGGUNA, 
+        cursor.execute(f"""SELECT MP.USERNAME_PENGGUNA, 
         NAMA_TOKOH, 
-        NAMA, 
+        KJB.NAMA, 
         WARNA_APPAREL, 
-        NAMA_PEKERJAAN, 
+        PEKERJAAN, 
         KATEGORI_APPAREL
-        FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB
+        FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB, TOKOH T
         WHERE MP.ID_KOLEKSI = P.ID_KOLEKSI
         AND MP.ID_KOLEKSI = KJB.ID_KOLEKSI
-        AND P.ID_KOLEKSI = KJB.ID_KOLEKSI""")
+        AND P.ID_KOLEKSI = KJB.ID_KOLEKSI
+        AND T.NAMA = MP.NAMA_TOKOH""")
         tabel = dictfetchall(cursor)
     context = {'semuamenggunakan_apparel': tabel}
     return render(request, 'read_menggunakan_apparel_admin.html', context)
@@ -38,18 +39,19 @@ def read_menggunakan_apparel_pemain(request):
     if request.session['role'] == 'admin':
         return redirect("/")
     with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT USERNAME_PENGGUNA, 
+        cursor.execute(f"""SELECT MP.USERNAME_PENGGUNA, 
         NAMA_TOKOH, 
-        NAMA, 
+        KJB.NAMA, 
         WARNA_APPAREL, 
-        NAMA_PEKERJAAN, 
+        PEKERJAAN, 
         KATEGORI_APPAREL,
         MP.ID_KOLEKSI
-        FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB
+        FROM MENGGUNAKAN_APPAREL MP, APPAREL P, KOLEKSI_JUAL_BELI KJB, TOKOH T
         WHERE MP.ID_KOLEKSI = P.ID_KOLEKSI
         AND MP.ID_KOLEKSI = KJB.ID_KOLEKSI
         AND P.ID_KOLEKSI = KJB.ID_KOLEKSI
-        AND USERNAME_PENGGUNA = '{request.session['username']}'""")
+        AND T.NAMA = MP.NAMA_TOKOH
+        AND MP.USERNAME_PENGGUNA = '{request.session['username']}'""")
         tabel = dictfetchall(cursor)
     context = {'semuamenggunakan_apparelpemain': tabel}
     return render(request, 'read_menggunakan_apparel_pemain.html', context)    

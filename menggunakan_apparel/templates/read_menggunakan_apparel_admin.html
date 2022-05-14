@@ -35,7 +35,11 @@
                 <td>{{sm.nama_tokoh}} </td>
                 <td>{{sm.nama}} </td>
                 <td>{{sm.warna_apparel}} </td>
-                <td>{{sm.nama_pekerjaan}} </td>
+                {% if sm.pekerjaan == NULL %}
+                    <td>""</td>
+                { %else }
+                    <td>{{sm.pekerjaan}} </td>
+                {% endif %}
                 <td>{{sm.kategori_apparel}} </td>
             </tr>
     

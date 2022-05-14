@@ -43,8 +43,13 @@
                 <td>{{st.kelaparan}} </td>
                 <td>{{st.hubungan_sosial}} </td>
                 <td>{{st.level}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Detail</a><br>
-                    <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a>
+                <td>
+                    <form method="POST" action="{% url 'tokoh:detail_tokoh' %}">
+                        {% csrf_token %}
+                        <input name="tokoh" value="{{st.nama}}" hidden>
+                        <input class="btn btn-primary" type="submit" value="Detail">
+                    </form>  
+                    <td><a class="btn btn-primary" href="/tokoh/update_tokoh/{{ st.nama }}">Update</a>
                 </td>
             </tr>
     

@@ -79,3 +79,56 @@ def create_tokoh(request):
         context["list_pekerjaan"] = cursor.fetchall()
 
         return render(request, "create_tokoh.html", context)
+
+def detail_tokoh(request):
+    if request.session["role"] == "admin":
+        return redirect("/")
+
+    if request.method == "POST":
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+                SELECT NAMA, ID_RAMBUT, ID_MATA, ID_RUMAH, WARNA_KULIT, PEKERJAAN
+                FROM TOKOH
+                WHERE NAMA = '{request.POST['tokoh']}'
+            """)
+            tabel = dictfetchall(cursor)
+        context = {'detailtokoh': tabel}
+        return render(request, "detail_tokoh.html", context)
+
+def update_tokoh(request, nama_tokoh):
+    if request.session["role"] == "admin":
+        return redirect("/")
+
+    with connection.cursor() as cursor:
+            cursor.execute(f"""SELECT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE NAMA_TOKOH = '{nama_tokoh}'
+            AND ID_KOLEKSI LIKE 'RB%'
+            """)
+            rambut = dictfetchall(cursor)
+            context = {"list_rambut" : rambut}
+            cursor.execute(f"""SELECT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE NAMA_TOKOH = '{nama_tokoh}'
+            AND ID_KOLEKSI LIKE 'MT%'
+            """)
+            mata = dictfetchall(cursor)
+            context["list_mata"] = mata
+            cursor.execute(f"""SELECT ID_KOLEKSI FROM KOLEKSI_TOKOH WHERE NAMA_TOKOH = '{nama_tokoh}'
+            AND ID_KOLEKSI LIKE 'RM%'
+            """)
+            rumah = dictfetchall(cursor)
+            context["list_rumah"] = rumah
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    UPDATE TOKOH
+                    SET ID_RAMBUT='{request.POST['rambut_baru']}',
+                    ID_MATA='{request.POST['mata_baru']}',
+                    ID_RUMAH='{request.POST['rumah_baru']}'
+                    WHERE NAMA = '{nama_tokoh}'
+                """)
+                return redirect("tokoh:read_tokoh_pemain")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
+    context["nama_tokoh_update"] = nama_tokoh
+
+    return render(request, "update_tokoh.html", context)
