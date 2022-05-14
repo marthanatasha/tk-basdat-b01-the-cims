@@ -39,12 +39,20 @@ def read_misi_utama_pemain(request):
     context = {'listmisiutama': tabel}
     return render(request, 'read_misi_utama.html', context)
 
-def detail_misi(request):
-    with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT *
-        FROM MISI M, MISI_UTAMA MU
-        WHERE M.NAMA = MU.NAMA_MISI""")
-        tabel = dictfetchall(cursor)
-    context = {'detailmisi': tabel}
-    return render(request, 'detail.html', context)
 
+# def detail_misi(request):
+#     with connection.cursor() as cursor:
+#         cursor.execute(f"""SELECT *
+#         FROM MISI M, MISI_UTAMA MU
+#         WHERE M.NAMA = MU.NAMA_MISI""")
+#         tabel = dictfetchall(cursor)
+#     context = {'detailmisi': tabel}
+#     return render(request, 'detail.html', context)
+
+def detail_misi(request):
+    if request.method == "POST":
+        with connection.cursor() as cursor:
+            cursor.execute(f"""SELECT * FROM MISI WHERE NAMA='{request.POST['nama_misi']}'""")
+            tabel = dictfetchall(cursor)
+        context = {'detailmisi': tabel}
+        return render(request, 'detail.html', context)

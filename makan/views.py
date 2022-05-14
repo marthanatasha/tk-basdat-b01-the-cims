@@ -33,3 +33,38 @@ def read_makan_pemain(request):
         tabel = dictfetchall(cursor)
     context = {'makanan': tabel}
     return render(request, 'read_makan.html', context)
+
+@csrf_exempt
+def create_makan(request):
+    # if request.session['role'] == 'admin':
+    #     messages.add_message(request, messages.WARNING, f"Hanya pemain yang dapat menambahkan menggunakan_apparel")
+    #     return redirect("/")
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    INSERT INTO MAKAN VALUES 
+                    ('{request.session['username']}',
+                    '{request.POST['nama_tokoh']}',
+                    '{request.POST['waktu']}',
+                    '{request.POST['nama_makanan']}')
+                """)
+
+                return redirect("makan:read_makan")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data makan dengan nama {request.POST['nama_makan']} sudah terdaftar")
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
+        tokoh = cursor.fetchall()
+
+    return render(request, "create_makan.html", {"tokoh":tokoh})
+
+@csrf_exempt
+def get_makanan(request):
+    if request.method == "POST":
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT nama FROM MAKANAN")
+            makanan = cursor.fetchall()
+        return JsonResponse({'makanan': makanan})
+    return HttpResponse("<h1>Method not allowed</h1>", status=405)

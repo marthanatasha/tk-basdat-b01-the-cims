@@ -29,7 +29,11 @@
                 <td>{{forloop.counter}}</td>
                 <td>{{misi.nama}}</td>
                 <td>
-                    <a href="{% url 'misi_utama:detail_misi' %}" style="color: blue; cursor: pointer;">Detail</a>
+                    <form method="POST" action="{% url 'misi_utama:detail_misi' %}">
+                        {% csrf_token %}
+                        <input name="nama_misi" value="{{misi.nama}}" hidden>
+                        <input class="btn btn-danger" type="submit" value="Detail">
+                    </form> 
                     {% if request.session.role == 'admin' %}
                         <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Delete</a>
                     {% endif %}
