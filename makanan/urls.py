@@ -7,4 +7,5 @@ urlpatterns = [
     path('read_makanan_pemain/', read_makanan_pemain, name='read_makanan_pemain'),
     path('create_makanan/', create_makanan, name='create_makanan'),
     path('update_makanan/<str:nama_makanan>', update_makanan, name='update_makanan'),
+    path('delete_makanan/>', delete_makanan, name='delete_makanan'),
 ]

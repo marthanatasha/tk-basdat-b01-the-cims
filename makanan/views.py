@@ -20,7 +20,12 @@ def read_makanan_admin(request):
     if request.session['role'] == 'pemain':
         return redirect("/")
     with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT * FROM MAKANAN""")
+        cursor.execute(f"""SELECT *, 
+        CASE WHEN NAMA NOT IN (
+                SELECT NAMA_MAKANAN FROM MAKAN
+        ) THEN true else false
+        END AS DELETABLE 
+        FROM MAKANAN""")
         tabel = dictfetchall(cursor)
     context = {'makanan': tabel}
     return render(request, 'read_makanan.html', context)
@@ -80,3 +85,6 @@ def update_makanan(request, nama_makanan):
     if len(data)<=0:
         return HttpResponse("<h1>Page not found</h1>", status=404)
     return render(request, "update_makanan.html", {"data":data[0]})
+
+def delete_makanan(request):
+    return redirect("makanan:read_makanan_admin")
