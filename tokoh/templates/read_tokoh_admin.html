@@ -45,7 +45,14 @@
                 <td>{{st.kelaparan}} </td>
                 <td>{{st.hubungan_sosial}} </td>
                 <td>{{st.level}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Detail</a></td>
+                <td>
+                    <form method="POST" action="{% url 'tokoh:detail_tokoh' %}">
+                        {% csrf_token %}
+                        <input name="tokoh" value="{{st.nama}}" hidden>
+                        <input name="username_pemain" value="{{st.username_pengguna}}" hidden>
+                        <input class="btn btn-primary" type="submit" value="Detail">
+                    </form>
+                </td>
             </tr>
     
             {% endfor %}
