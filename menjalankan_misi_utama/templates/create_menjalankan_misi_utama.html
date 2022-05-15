@@ -12,42 +12,26 @@
   <form action="#"  method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label for="nama_tokoh"><b>Nama Tokoh: </b></label>
-        <select id="nama_tokoh" name="nama_tokoh" class="form-control">
-          <option value="">-- Pilih --</option>
+      <label for="nama_tokoh">Nama Tokoh:</label>
+      <select class="form-control" name="nama_tokoh" id="nama_tokoh" required>
+          <option value="" selected>--Pilih Tokoh--</option>
           {% for t in tokoh %}
-          <option value="{{t | first}}">{{t | first}}</option>
+              <option value="{{ t.0 }}">{{ t.0 }}</option>
           {% endfor %}
-        </select><br>
-      <div>
+      </select>
+  </div>
       <div class="form-group">
         <label for="nama_misiutama"><b>Nama Misi Utama: </b></label>
         <select id="nama_misiutama" name="nama_misiutama" class="form-control">
           <option value="">-- Pilih --</option>
+          {% for m in misi %}
+              <option value="{{ m.nama_misi }}">{{ m.nama_misi }}</option>
+          {% endfor %}
         </select><br>
       <div>
     <button type="submit" class="btn btn-primary">SIMPAN</button>
   </form>
 </div>
-<script type="text/javascript">
-  $("#nama_misiutama").change(function(){
-    var nama_tokoh = $(this).val();
-    $.ajax({
-      url: "{% url 'menjalankan_misi_utama:get_misi_utama' %}",
-      type: 'post',
-      data: {'nama_misiutama':nama_misiutama},
-      dataType: 'json',
-      success:function(data){
-        data = data["nama_misiutama"];
-        $("#nama_misiutama").empty();
-        $("#nama_misiutama").append("<option value=''>-- Pilih --</option>");
-        for(var i=0; i<data.length; i++){
-          $("#nama_misiutama").append("<option value='"+data[i][0]+"'>"+data[i][0]+"</option>");
-        }
-      }
-    });
-  });
-</script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>

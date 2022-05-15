@@ -46,19 +46,21 @@ def create_makan(request):
                     INSERT INTO MAKAN VALUES 
                     ('{request.session['username']}',
                     '{request.POST['nama_tokoh']}',
-                    '{request.POST['waktu']}',
+                    CURRENT_TIMESTAMP,
                     '{request.POST['nama_makanan']}')
                 """)
 
-                return redirect("makan:read_makan")
+                return redirect("makan:read_makan_pemain")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data makan dengan nama {request.POST['nama_makan']} sudah terdaftar")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
         tokoh = cursor.fetchall()
+        cursor.execute ("SELECT nama FROM MAKANAN")
+        makanan = dictfetchall(cursor)
 
-    return render(request, "create_makan.html", {"tokoh":tokoh})
+    return render(request, "create_makan.html", {"tokoh":tokoh, "makanan":makanan})
 
 @csrf_exempt
 def get_makanan(request):

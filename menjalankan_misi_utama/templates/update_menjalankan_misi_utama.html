@@ -32,15 +32,15 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="nama_tokoh">Nama Tokoh:</label>
-            <input class="form-control" type="text" id="nama_tokoh" name="nama_tokoh" value="{{data.0}}" disabled required>
+            <input class="form-control" type="text" id="nama_tokoh" name="nama_tokoh" value="{{nama_tokoh}}" disabled required>
         </div>
         <div class="form-group">
             <label for="nama_misi_utama">Nama Misi Utama:</label>
-            <input class="form-control" type="text" id="nama_misi_utama" name="nama_misi_utama" value="{{data.0}}" disabled required>
+            <input class="form-control" type="text" id="nama_misi_utama" name="nama_misi_utama" value="{{nama_misi}}" disabled required>
         </div>
         <div class="form-group">
-            <label for="status">Status</label>
-            <input class="form-control" type="text" id="status" name="status" value="{{data.1}}" required>
+            <label for="update_status">Status</label>
+            <input class="form-control" type="text" id="update_status" name="update_status" required>
             <div class="invalid-feedback">
                 Status belum terisi
             </div>

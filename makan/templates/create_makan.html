@@ -12,18 +12,21 @@
   <form action="#"  method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label for="nama_tokoh"><b>Nama Tokoh: </b></label>
-        <select id="nama_tokoh" name="nama_tokoh" class="form-control">
-          <option value="">-- Pilih --</option>
+      <label for="nama_tokoh">Nama Tokoh:</label>
+      <select class="form-control" name="nama_tokoh" id="nama_tokoh" required>
+          <option value="" selected>--Pilih Tokoh--</option>
           {% for t in tokoh %}
-          <option value="{{t | first}}">{{t | first}}</option>
+              <option value="{{ t.0 }}">{{ t.0 }}</option>
           {% endfor %}
-        </select><br>
-      <div>
+      </select>
+  </div>
       <div class="form-group">
         <label for="nama_makanan"><b>Nama Makanan: </b></label>
         <select id="nama_makanan" name="nama_makanan" class="form-control">
-          <option value="">-- Pilih --</option>
+          <option value="">-- Pilih Makanan --</option>
+          {% for m in makanan %}
+              <option value="{{ m.nama }}">{{ m.nama }}</option>
+          {% endfor %}
         </select><br>
       <div>
     <button type="submit" class="btn btn-primary">SIMPAN</button>

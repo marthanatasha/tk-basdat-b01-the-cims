@@ -46,19 +46,21 @@ def create_menjalankan_misi_utama(request):
                     INSERT INTO MENJALANKAN_MISI_UTAMA VALUES 
                     ('{request.session['username']}',
                     '{request.POST['nama_tokoh']}',
-                    '{request.POST['nama_misi']}'),
-                     '{request.POST['status']}'
+                    '{request.POST['nama_misiutama']}',
+                     'in progress')
                 """)
 
-                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama")
+                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama_pemain")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data menjalankan misi dengan nama {request.POST['nama_misi']} sudah terdaftar")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
         tokoh = cursor.fetchall()
+        cursor.execute ("SELECT nama_misi FROM MISI_UTAMA")
+        misi = dictfetchall(cursor)
 
-    return render(request, "create_menjalankan_misi_utama.html", {"tokoh":tokoh})
+    return render(request, "create_menjalankan_misi_utama.html", {"tokoh":tokoh, "misi":misi})
 
 @csrf_exempt
 def get_misi_utama(request):
@@ -69,27 +71,21 @@ def get_misi_utama(request):
         return JsonResponse({'misiutama': misiutama})
     return HttpResponse("<h1>Method not allowed</h1>", status=405)
 
-def update_menjalankan_misi_utama(request, username_pemain, nama_tokoh, nama_misi_utama):
-    # if request.session["role"] == "pemain":
-    #     return redirect("/")
-    with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM MENJALANKAN_MISI_UTAMA WHERE username_pengguna='{}' AND nama_tokoh = '{} AND nama_misi = '{}'".format(username_pemain, nama_tokoh, nama_misi_utama))
-            data = cursor.fetchall()
+
+def update_menjalankan_misi_utama(request, nama_tokoh, nama_misi):
 
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
-                    UPDATE MISI_UTAMA 
-                    SET status='{request.POST['status']}'
-                    WHERE username_pengguna = '{username_pemain}'
-                    AND nama_tokoh = '{nama_tokoh}'
-                    AND nama_misi = '{nama_misi_utama}'
+                    UPDATE MENJALANKAN_MISI_UTAMA 
+                    SET status='{request.POST['update_status']}'
+                    WHERE nama_tokoh = '{nama_tokoh}'
+                    AND nama_misi = '{nama_misi}'
                 """)
-                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama")
+                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama_pemain")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data Menjalankan misi utama tersebut sudah terdaftar")
 
-    if len(data)<=0:
-        return HttpResponse("<h1>Page not found</h1>", status=404)
-    return render(request, "update_menjalankan_misi_utama.html", {"data":data[0]})
+    context = {"nama_tokoh":nama_tokoh, "nama_misi":nama_misi}
+    return render(request, "update_menjalankan_misi_utama.html", context)
