@@ -29,7 +29,7 @@ def read_menjalankan_misi_utama_pemain(request):
     if request.session['role'] == 'admin':
         return redirect("/")
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM MENJALANKAN_MISI_UTAMA WHERE USERNAME_PENGGUNA = %s;", [request.session['username']])
+        cursor.execute("SELECT * , CASE WHEN STATUS = 'Success' THEN false else true END AS UPDATABLE FROM MENJALANKAN_MISI_UTAMA WHERE USERNAME_PENGGUNA = %s;", [request.session['username']])
         tabel = dictfetchall(cursor)
     context = {'menjalankanmisiutama': tabel}
     return render(request, 'read_menjalankan_misi_utama.html', context)
@@ -78,8 +78,8 @@ def update_menjalankan_misi_utama(request, nama_tokoh, nama_misi):
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
-                    UPDATE MENJALANKAN_MISI_UTAMA 
-                    SET status='{request.POST['update_status']}'
+                    UPDATE MISI_UTAMA 
+                    SET status='{request.POST['ustatus']}'
                     WHERE nama_tokoh = '{nama_tokoh}'
                     AND nama_misi = '{nama_misi}'
                 """)
