@@ -81,16 +81,25 @@ def create_tokoh(request):
         return render(request, "create_tokoh.html", context)
 
 def detail_tokoh(request):
-    if request.session["role"] == "admin":
-        return redirect("/")
-
+    try:
+        role = request.session["role"]
+    except:
+        return redirect("/login-dan-register")
+        
     if request.method == "POST":
         with connection.cursor() as cursor:
-            cursor.execute(f"""
-                SELECT NAMA, ID_RAMBUT, ID_MATA, ID_RUMAH, WARNA_KULIT, PEKERJAAN
-                FROM TOKOH
-                WHERE NAMA = '{request.POST['tokoh']}'
-            """)
+            if request.session["role"] == 'admin':
+                cursor.execute(f"""
+                    SELECT NAMA, ID_RAMBUT, ID_MATA, ID_RUMAH, WARNA_KULIT, PEKERJAAN
+                    FROM TOKOH
+                    WHERE NAMA = '{request.POST['tokoh']}' AND USERNAME_PENGGUNA='{request.POST['username_pemain']}'
+                """)
+            else:
+                cursor.execute(f"""
+                    SELECT NAMA, ID_RAMBUT, ID_MATA, ID_RUMAH, WARNA_KULIT, PEKERJAAN
+                    FROM TOKOH
+                    WHERE NAMA = '{request.POST['tokoh']}' AND USERNAME_PENGGUNA='{request.session['username']}'
+                """)
             tabel = dictfetchall(cursor)
         context = {'detailtokoh': tabel}
         return render(request, "detail_tokoh.html", context)
