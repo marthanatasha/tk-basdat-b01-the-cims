@@ -57,3 +57,26 @@ def create_makanan(request):
     with connection.cursor() as cursor:
         context = {}
         return render(request, "create_makanan.html", context)
+
+def update_makanan(request, nama_makanan):
+    with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM MAKANAN WHERE NAMA='{}'".format(nama_makanan))
+            data = cursor.fetchall()
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    UPDATE MAKANAN
+                    SET harga='{request.POST['harga']}',
+                    tingkat_energi='{request.POST['tingkat_energi']},
+                    tingkat_kelaparan='{request.POST['tingkat_kelaparan']},
+                    WHERE LEVEL = '{nama_makanan}'
+                """)
+                return redirect("makanan:read_makanan")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data makanan tersebut sudah terdaftar")
+
+    if len(data)<=0:
+        return HttpResponse("<h1>Page not found</h1>", status=404)
+    return render(request, "update_makanan.html", {"data":data[0]})

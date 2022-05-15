@@ -50,7 +50,9 @@
                 <td>{{misi.nama_tokoh}} </td>
                 <td>{{misi.nama_misi}} </td>
                 <td>{{misi.status}} </td>
-                <td><a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a></td>
+                <td>
+                    <a class="btn btn-primary" href="/menjalankan_misi_utama/update_menjalankan_misi_utama/{{ misi.username_pemain }} {{ misi.nama_tokoh }} {{ misi.nama_misi }}">Update</a>
+                </td>
                 {% endif %}
             </tr>
     

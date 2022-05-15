@@ -37,7 +37,7 @@
                 <td>{{x.tingkat_kelaparan}} </td>
                 <td>
                     {% if request.session.role == 'admin' %}
-                    <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Update</a>
+                    <a class="btn btn-primary" href="/makanan/update_makanan/{{ x.nama }}">Update</a>
                     <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Delete</a>
                     {% endif %}
                 </td>

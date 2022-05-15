@@ -68,3 +68,28 @@ def get_misi_utama(request):
             misiutama = cursor.fetchall()
         return JsonResponse({'misiutama': misiutama})
     return HttpResponse("<h1>Method not allowed</h1>", status=405)
+
+def update_menjalankan_misi_utama(request, username_pemain, nama_tokoh, nama_misi_utama):
+    # if request.session["role"] == "pemain":
+    #     return redirect("/")
+    with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM MENJALANKAN_MISI_UTAMA WHERE username_pengguna='{}' AND nama_tokoh = '{} AND nama_misi = '{}'".format(username_pemain, nama_tokoh, nama_misi_utama))
+            data = cursor.fetchall()
+
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    UPDATE MISI_UTAMA 
+                    SET status='{request.POST['status']}'
+                    WHERE username_pengguna = '{username_pemain}'
+                    AND nama_tokoh = '{nama_tokoh}'
+                    AND nama_misi = '{nama_misi_utama}'
+                """)
+                return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data Menjalankan misi utama tersebut sudah terdaftar")
+
+    if len(data)<=0:
+        return HttpResponse("<h1>Page not found</h1>", status=404)
+    return render(request, "update_menjalankan_misi_utama.html", {"data":data[0]})
