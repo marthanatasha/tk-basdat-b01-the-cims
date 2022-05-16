@@ -21,9 +21,14 @@ def read_misi_utama_admin(request):
     if request.session['role'] == 'pemain':
         return redirect("/")
     with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT NAMA
-         FROM MISI M, MISI_UTAMA MU
-         WHERE M.NAMA = MU.NAMA_MISI""")
+        cursor.execute(f"""SELECT ROW_NUMBER() OVER (), 
+            *,
+            CASE WHEN M.NAMA NOT IN (
+                SELECT NAMA_MISI FROM MENJALANKAN_MISI_UTAMA
+            ) THEN true else false
+            END AS DELETABLE
+            FROM MISI M, MISI_UTAMA MU
+            WHERE M.NAMA = MU.NAMA_MISI""")
         tabel = dictfetchall(cursor)
     context = {'listmisiutama': tabel}
     return render(request, 'read_misi_utama.html', context)
@@ -59,9 +64,6 @@ def detail_misi(request):
 
 @csrf_exempt
 def create_misi_utama(request):
-    # if request.session['role'] == 'pemain':
-    #     messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan level")
-    #     return redirect("/")
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
@@ -89,3 +91,6 @@ def create_misi_utama(request):
 
     context = {}
     return render(request, "create_misi_utama.html", context)
+
+def delete_misi_utama(request):
+    return redirect("misi_utama:read_misi_utama_admin")

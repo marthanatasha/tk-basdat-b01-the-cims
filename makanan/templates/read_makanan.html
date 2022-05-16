@@ -37,8 +37,14 @@
                 <td>{{x.tingkat_kelaparan}} </td>
                 <td>
                     {% if request.session.role == 'admin' %}
-                    <a class="btn btn-primary" href="/makanan/update_makanan/{{ x.nama }}">Update</a>
-                    <a href="{% url 'home' %}" style="color: blue; cursor: pointer;">Delete</a>
+                        <a class="btn btn-primary" href="/makanan/update_makanan/{{ x.nama }}">Update</a>
+                        {% if x.deletable == True %}
+                            <form method="POST" action="{% url 'makanan:delete_makanan' %}">
+                                {% csrf_token %}
+                                <input name="nama_makanan" value="{{x.nama}}" hidden>
+                                <input class="btn btn-danger" type="submit" value="Delete">
+                            </form>        
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
