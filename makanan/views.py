@@ -50,8 +50,8 @@ def create_makanan(request):
                 cursor.execute(f"""
                     INSERT INTO MAKANAN VALUES 
                     ('{request.POST['nama_makanan']}',
-                    '{request.POST['harga']}'),
-                    '{request.POST['tingkat_energi']}'),
+                    '{request.POST['harga']}',
+                    '{request.POST['tingkat_energi']}',
                     '{request.POST['tingkat_kelaparan']}')
                 """)
 
