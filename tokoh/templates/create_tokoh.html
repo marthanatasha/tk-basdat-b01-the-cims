@@ -1,85 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-    <title>Tokoh</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-</head>
-<body>
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.tags == "success" %}
-                <div class="alert alert-success" role="alert">
-                    {{ message }}
+{% extends "navbar.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid" style="padding-bottom: 3%; display: flex; align-items: center; justify-content: center;">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="new_card p-3 py-5">
+                    <div class="d-flex justify-content-center mb-3">
+                        <h4 class="text-center">Buat Tokoh</h4>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == "success" %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                                {% else %}
+                                <div class="alert alert-warning" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row mt-4 d-flex justify-content-center">
+                                <div class="col-md-7">
+                                    <input type="type" name="nama_tokoh" class="form-control" id="nama_tokoh" placeholder="Nama Tokoh" required>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <div class="col-md-7">
+                                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                                        <option value="">--Pilih Jenis Kelamin--</option>
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="form-group">
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <div class="col-md-7">
+                                    <select class="form-control" name="warna_kulit" id="warna_kulit"required>
+                                        <option value="" selected>--Pilih Warna Kulit--</option>
+                                        {% for warna_kulit_1 in list_warna_kulit %}
+                                            <option value="{{ warna_kulit_1.0 }}">{{ warna_kulit_1.0 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <div class="col-md-7">
+                                    <select class="form-control" name="pekerjaan" id="pekerjaan">
+                                        <option value="" selected>--Pilih Pekerjaan--</option>
+                                        {% for nama_pekerjaan in list_pekerjaan %}
+                                            <option value="{{ nama_pekerjaan.0 }}">{{  nama_pekerjaan.0 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5 text-center buttons">
+                            <button class="btn px-4" type="submit" value="Simpan">Simpan</button>
+                        </div>
+                    </form>
+                    <div class="mt-4 text-center deactivate">
+                        <form method="get" action="{% url 'home' %}">
+                            <button class="btn px-4" href="{% url 'home' %}">Batal</button>
+                        </form>
+                    </div>
                 </div>
-                {% else %}
-                <div class="alert alert-warning" role="alert">
-                    {{ message }}
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-        </div>
-    </nav>
-    {% if request.session.role == 'pemain' %}
-    <h1 class="text-center">Create Tokoh</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="nama_tokoh">Nama:</label>
-            <input class="form-control" type="text" id="nama_tokoh" name="nama_tokoh" required>
-            <div class="invalid-feedback">
-                Nama Tokoh belum diisi
             </div>
         </div>
-    
-        <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin:</label>
-            <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" onchange=changegender() required>
-                <option value="Laki-laki" selected>Laki-laki</option>
-                <option value="Perempuan">Perempuan</option>
-            </select>
-            <div class="invalid-feedback">
-                Jenis Kelamin belum dipilih
-            </div>
-        </div>  
-        
-        <div class="form-group">
-            <label for="warna_kulit">Warna Kulit:</label>
-            <select class="form-control" name="warna_kulit" id="warna_kulit" onchange=changewarnakulit() required>
-                <option value="{{ warna_kulit_1.0 }}" selected>{{ warna_kulit_1.0 }}</option>
-                {% for warna_kulit_1 in list_warna_kulit %}
-                    <option value="{{ warna_kulit_1.0 }}">{{ warna_kulit_1.0 }}</option>
-                {% endfor %}
-            </select>
-            <div class="invalid-feedback">
-                Warna Kulit belum dipilih
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="pekerjaan">Pekerjaan:</label>
-            <select class="form-control" name="pekerjaan" id="pekerjaan" onchange=changepekerjaan() required>
-                <option value="{{ nama_pekerjaan.0 }}" selected>{{  nama_pekerjaan.0 }}</option>
-                {% for nama_pekerjaan in list_pekerjaan %}
-                    <option value="{{ nama_pekerjaan.0 }}">{{  nama_pekerjaan.0 }}</option>
-                {% endfor %}
-            </select>
-            <div class="invalid-feedback">
-                Nama Pekerjaan belum dipilih
-            </div>
-        </div>
-        <input class="btn btn-primary" type="submit" value="Simpan">
-        <a class="btn btn-danger" href="{% url 'home' %}">batal</a>
-
-    </form>
-  {% endif %}
-  
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</html>
+    </div>
+</div>  
+{% endblock %}

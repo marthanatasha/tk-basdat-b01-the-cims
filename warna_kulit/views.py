@@ -31,6 +31,7 @@ def read_warna_kulit(request):
             FROM WARNA_KULIT""")
         tabel = dictfetchall(cursor)
     context = {'semuawarnakulit': tabel}
+    context["role"] = request.session['role']
     return render(request, 'read_warna_kulit.html', context)
  
 @csrf_exempt
@@ -51,7 +52,7 @@ def create_warna_kulit(request):
             messages.add_message(request, messages.WARNING, "Data warna_kulit dengan nama {request.POST['nama_warna_kulit']} sudah terdaftar")
 
     with connection.cursor() as cursor:
-        context = {}
+        context = {"role":request.session['role']}
         return render(request, "create_warna_kulit.html", context)
 
 def delete_warna_kulit(request):

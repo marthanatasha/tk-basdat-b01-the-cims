@@ -1,26 +1,40 @@
-<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Tokoh</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-    </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+{% extends "navbar.html" %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid" style="height: 76vh; display: flex; align-items: center; justify-content: center; padding-bottom: 5%;">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7">
+                    <div class="new_card p-3 py-4">
+                        <div class="d-flex justify-content-center mb-3">
+                            <h4 class="text-center">Detail Tokoh</h4>
+                        </div>
+                            <div class="text-center"> 
+                                {% for st in detailtokoh %}
+                                <div class="labels">
+                                    <span>Nama: {{ st.nama }}</span>
+                                </div>
+                                <div class="labels">
+                                    <span>ID Mata: {{ st.id_mata }}</span>
+                                </div>
+                                <div class="labels">
+                                    <span>ID Rambut: {{ st.id_rambut }}</span>
+                                </div>
+                                <div class="labels">
+                                    <span>ID Rumah: {{ st.id_rumah }}</span>
+                                </div>
+                                <div class="labels">
+                                    <span>Warna Kulit: {{ st.warna_kulit }}</span>
+                                </div>
+                                <div class="labels">
+                                    <span>Pekerjaan: {{ st.pekerjaan }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </nav>
-    <h1 class="text-center">Detail Tokoh</h1>
-                {% for st in detailtokoh %}
-                    <p>Nama: {{ st.nama }}<p>
-                    <p>ID Mata: {{ st.id_mata }}<p>
-                    <p>ID Rambut: {{ st.id_rambut }}<p>
-                    <p>ID Rumah: {{ st.id_rumah }}<p>
-                    <p>Warna Kulit: {{ st.warna_kulit }}<p>
-                    <p>Pekerjaan: {{ st.pekerjaan }}<p>
-                {% endfor %}
-        </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</html>
+    </div>
+{% endblock %}

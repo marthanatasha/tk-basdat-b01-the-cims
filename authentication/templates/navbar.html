@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>The Cims</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+  
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center">
+
+        <h1 class="logo me-auto"><a href="{% url 'home' %}">The Cims</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo me-auto"><img src="% static img/logo.png" alt="" class="img-fluid"></a>-->
+
+        {% if request.session.role == 'pemain' %}
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+
+            <li class="dropdown"><a href="#"><span>Tokoh</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'tokoh:create_tokoh' %}">Buat Tokoh</a></li>
+                <li><a href="{% url 'tokoh:read_tokoh_pemain' %}">List Tokoh</a></li>
+                <li><a href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a></li>
+                <li><a href="{% url 'level:read_level' %}">List Level</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Pekerjaan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'read_pekerjaan' %}">List Pekerjaan</a></li>
+                <li><a href="{% url 'create_bekerja' %}">Buat Bekerja</a></li>
+                <li><a href="{% url 'read_bekerja' %}">List Bekerja</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Misi Utama</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'misi_utama:read_misi_utama_pemain' %}">List Misi Utama</a></li>
+                <li><a href="{% url 'menjalankan_misi_utama:create_menjalankan_misi_utama' %}">Buat Menjalankan Misi Utama</a></li>
+                <li><a href="{% url 'menjalankan_misi_utama:read_menjalankan_misi_utama_pemain' %}">List Menjalankan Misi Utama</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Makan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'makanan:read_makanan_pemain' %}">List Makanan</a></li>
+                <li><a href="{% url 'makan:create_makan' %}">Buat Makan</a></li>
+                <li><a href="{% url 'makan:read_makan_pemain' %}">List Makan</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Koleksi</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="/">List Koleksi</a>
+                <li><a href="/">List Kategori Apparel</a></li>
+                <li><a href="/">Buat Koleksi Tokoh</a></li>
+                <li><a href="/">List Koleksi Tokoh</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Penggunaan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'menggunakan_apparel:create_menggunakan_apparel' %}">Buat Menggunakan Apparel</a></li>
+                <li><a href="{% url 'menggunakan_apparel:read_menggunakan_apparel_pemain' %}">List Menggunakan Apparel</a></li>
+                <li><a href="{% url 'create_menggunakan_barang' %}">Buat Menggunakan Barang</a></li>
+                <li><a href="{% url 'read_menggunakan_barang' %}">List Menggunakan Barang</a></li>
+              </ul>
+            </li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+        {% endif %}
+
+        {% if request.session.role == 'admin' %}
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+
+            <li class="dropdown"><a href="#"><span>Tokoh</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'tokoh:read_tokoh_admin' %}">List Tokoh</a></li>
+                <li><a href="{% url 'warna_kulit:create_warna_kulit' %}">Buat Warna Kulit</a></li>
+                <li><a href="{% url 'warna_kulit:read_warna_kulit' %}">List Warna Kulit</a></li>
+                <li><a href="{% url 'level:create_level' %}">Buat Level</a></li>
+                <li><a href="{% url 'level:read_level' %}">List Level</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Pekerjaan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'create_pekerjaan' %}">Buat Pekerjaan</a></li>
+                <li><a href="{% url 'read_pekerjaan' %}">List Pekerjaan</a></li>
+                <li><a href="{% url 'read_bekerja' %}">List Bekerja</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Misi Utama</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'misi_utama:create_misi_utama' %}">Buat Misi Utama</a></li>
+                <li><a href="{% url 'misi_utama:read_misi_utama_admin' %}">List Misi Utama</a></li>
+                <li><a href="{% url 'menjalankan_misi_utama:read_menjalankan_misi_utama_admin' %}">List Menjalankan Misi Utama</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Makan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'makanan:create_makanan' %}">Buat Makanan</a></li>
+                <li><a href="{% url 'makanan:read_makanan_admin' %}">List Makanan</a></li>
+                <li><a href="{% url 'makan:read_makan_admin' %}">List Makan</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Koleksi</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Buat Koleksi</a></li>
+                <li><a href="#">List Koleksi</a></li>
+                <li><a href="#">Buat Kategori Apparel</a></li>
+                <li><a href="#">List Kategori Apparel</a></li>
+                <li><a href="#">List Koleksi Tokoh</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Penggunaan</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'menggunakan_apparel:read_menggunakan_apparel_admin' %}">List Menggunakan Apparel</a></li>
+                <li><a href="{% url 'read_menggunakan_barang' %}">List Menggunakan Barang</a></li>
+              </ul>
+            </li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+        {% endif %}
+
+      </div>
+    </header>
+    
+    <section id="breadcrumbs" class="breadcrumbs">
+    </section>
+
+    <main id="main" style="background-color: #f9f9f9;">
+      <section>
+        {% block content %}
+        {% endblock %}
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="sticky-footer" style="padding: 1rem !important; background-color: #4a5562; color: #f9f9f9;">
+      <div class="container my-auto">
+          <div class="text-center my-auto">
+              <span>The Cims <b>B-01</b></span>
+          </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+    
+    <!-- Template Main JS File -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/dropdown.js' %}" type="text/js"></script>
+
+    {% block script %}
+    {% endblock %}
+
+  </body>
+</html>    

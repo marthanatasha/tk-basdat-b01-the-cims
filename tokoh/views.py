@@ -22,6 +22,7 @@ def read_tokoh_admin(request):
         cursor.execute("SELECT * FROM TOKOH")
         tabel = dictfetchall(cursor)
     context = {'semuatokoh': tabel}
+    context["role"] = request.session['role']
     return render(request, 'read_tokoh_admin.html', context)
 
 def read_tokoh_pemain(request):
@@ -31,15 +32,8 @@ def read_tokoh_pemain(request):
         cursor.execute("SELECT * FROM TOKOH WHERE USERNAME_PENGGUNA = %s;", [request.session['username']])
         tabel = dictfetchall(cursor)
     context = {'semuatokohpemain': tabel}
+    context["role"] = request.session['role']
     return render(request, 'read_tokoh_pemain.html', context)    
-
-def action_read_tokoh(request):
-    with connection.cursor() as cursor:
-        cursor.execute(f"""SELECT NAMA, ID_MATA, ID_RAMBUT, ID_RUMAH, WARNA_KULIT, PEKERJAAN FROM TOKOH 
-                        WHERE""")
-        tabel = dictfetchall(cursor)
-    context = {'semuatokoh': tabel}
-    return render(request, 'action.html', context)
 
 @csrf_exempt
 def create_tokoh(request):
@@ -68,7 +62,7 @@ def create_tokoh(request):
                     'RM001')
                 """)
 
-                return redirect("tokoh:read_tokoh")
+                return redirect("tokoh:read_tokoh_pemain")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data tokoh dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
 
@@ -77,6 +71,7 @@ def create_tokoh(request):
         context = {"list_warna_kulit" : cursor.fetchall()}
         cursor.execute("SELECT NAMA FROM PEKERJAAN")
         context["list_pekerjaan"] = cursor.fetchall()
+        context["role"] = request.session['role']
 
         return render(request, "create_tokoh.html", context)
 
@@ -102,6 +97,7 @@ def detail_tokoh(request):
                 """)
             tabel = dictfetchall(cursor)
         context = {'detailtokoh': tabel}
+        context["role"] = request.session['role']
         return render(request, "detail_tokoh.html", context)
 
 def update_tokoh(request, nama_tokoh):
@@ -139,5 +135,6 @@ def update_tokoh(request, nama_tokoh):
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
     context["nama_tokoh_update"] = nama_tokoh
+    context["role"] = request.session['role']
 
     return render(request, "update_tokoh.html", context)
