@@ -64,27 +64,58 @@ def logout(request):
 @csrf_exempt
 def register_admin(request):
     if request.method == "POST":
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(f"""
-                    INSERT INTO AKUN
-                    ('{request.POST['username']}')
+        # try:
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+                INSERT INTO AKUN VALUES
+                ('{request.POST['username']}')
                 """)
-                cursor.execute(f"""
-                    INSERT INTO ADMIN VALUES 
-                    ('{request.POST['username']}',
-                    '{request.POST['password']}')""")
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM ADMIN WHERE username='{}' AND password='{}'".format(request.POST["username"], request.POST["password"]))
-                row = cursor.fetchall()
-                if len(row) > 0:
-                    request.session["username"] = row[0][0]
-                    request.session["role"] = "admin"
+            cursor.execute(f"""
+                INSERT INTO ADMIN VALUES 
+                ('{request.POST['username']}',
+                '{request.POST['password']}')
+                """)
+            cursor.execute("SELECT * FROM ADMIN WHERE username='{}' AND password='{}'".format(request.POST['username'], request.POST['password']))
+            row = cursor.fetchall()
+            if len(row) > 0:
+                request.session['username'] = row[0][0]
+                request.session['role'] = 'admin'
+                messages.success(request, "Login berhasil dilakukan.")
                 return redirect("/")
-        except:
-            messages.add_message(request, messages.WARNING, "email sudah sudah terdaftar")
+                
+        # except:
+        #     messages.add_message(request, messages.WARNING, "email sudah sudah terdaftar")
 
     return render(request, "register_admin.html")
 
 def register_pemain(request):
+    if request.method == "POST":
+        # try:
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+                INSERT INTO AKUN VALUES
+                ('{request.POST['username']}')
+                """)
+            cursor.execute(f"""
+                INSERT INTO PEMAIN VALUES 
+                ('{request.POST['username']}',
+                '{request.POST['password']}',
+                '{request.POST['email']}',
+                '{request.POST['no_hp']}',
+                '0')
+                """)
+            cursor.execute("SELECT * FROM PEMAIN WHERE username='{}' AND password='{}'".format(request.POST['username'], request.POST['password']))
+            row = cursor.fetchall()
+            if len(row) > 0:
+                request.session["username"] = row[0][0]
+                request.session["email"] = row[0][1]
+                request.session["no_hp"] = row[0][3]
+                request.session["koin"] = row[0][4]
+                request.session["role"] = "pemain"
+                messages.success(request, "Login berhasil dilakukan.")
+                return redirect("/")
+                
+        # except:
+        #     messages.add_message(request, messages.WARNING, "email sudah sudah terdaftar")
+
     return render(request, "register_pemain.html")
