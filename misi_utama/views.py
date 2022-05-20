@@ -45,15 +45,6 @@ def read_misi_utama_pemain(request):
     return render(request, 'read_misi_utama.html', context)
 
 
-# def detail_misi(request):
-#     with connection.cursor() as cursor:
-#         cursor.execute(f"""SELECT *
-#         FROM MISI M, MISI_UTAMA MU
-#         WHERE M.NAMA = MU.NAMA_MISI""")
-#         tabel = dictfetchall(cursor)
-#     context = {'detailmisi': tabel}
-#     return render(request, 'detail.html', context)
-
 def detail_misi(request):
     if request.method == "POST":
         with connection.cursor() as cursor:
@@ -94,3 +85,19 @@ def create_misi_utama(request):
 
 def delete_misi_utama(request):
     return redirect("misi_utama:read_misi_utama_admin")
+
+def delete_misi_utama(request):
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    DELETE FROM MISI_UTAMA 
+                    WHERE NAMA_MISI = '{request.POST['nama_misi']}'
+                """)
+                cursor.execute(f"""
+                    DELETE FROM MISI 
+                    WHERE NAMA = '{request.POST['nama_misi']}'
+                """)
+                return redirect("misi_utama:read_misi_utama_admin")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data misi utama dengan nama '{request.POST['nama_misi']}' sudah direfer")

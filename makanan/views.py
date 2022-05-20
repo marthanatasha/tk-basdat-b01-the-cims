@@ -74,11 +74,11 @@ def update_makanan(request, nama_makanan):
                 cursor.execute(f"""
                     UPDATE MAKANAN
                     SET harga='{request.POST['harga']}',
-                    tingkat_energi='{request.POST['tingkat_energi']},
-                    tingkat_kelaparan='{request.POST['tingkat_kelaparan']},
-                    WHERE LEVEL = '{nama_makanan}'
+                    tingkat_energi='{request.POST['tingkat_energi']}',
+                    tingkat_kelaparan='{request.POST['tingkat_kelaparan']}'
+                    WHERE nama = '{nama_makanan}'
                 """)
-                return redirect("makanan:read_makanan")
+                return redirect("makanan:read_makanan_admin")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data makanan tersebut sudah terdaftar")
 
@@ -86,5 +86,15 @@ def update_makanan(request, nama_makanan):
         return HttpResponse("<h1>Page not found</h1>", status=404)
     return render(request, "update_makanan.html", {"data":data[0]})
 
+
 def delete_makanan(request):
-    return redirect("makanan:read_makanan_admin")
+    if request.method == "POST":
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"""
+                    DELETE FROM MAKANAN
+                    WHERE NAMA = '{request.POST['nama_makanan']}'
+                """)
+                return redirect("makanan:read_makanan_admin")
+        except IntegrityError:
+            messages.add_message(request, messages.WARNING, "Data makanan dengan nama '{request.POST['nama_misi']}' sudah direfer")
