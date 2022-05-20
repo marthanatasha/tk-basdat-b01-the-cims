@@ -36,6 +36,7 @@ def	login(request):
             if len(row) > 0:
                 request.session["username"] = row[0][0]
                 request.session["role"] = "admin"
+                messages.success(request, "Login berhasil dilakukan.")
                 return redirect("/")
             else:
                 cursor.execute("SELECT * FROM PEMAIN WHERE username='{}' AND password='{}'".format(request.POST["username"], request.POST["password"]))
@@ -46,9 +47,12 @@ def	login(request):
                     request.session["no_hp"] = row[0][3]
                     request.session["koin"] = row[0][4]
                     request.session["role"] = "pemain"
+                    messages.success(request, "Login berhasil dilakukan.")
                     return redirect("/")
                 else:
-                    return render(request, "login.html", {"error":"Username atau password salah"})
+                    messages.error(
+                    request, "Username atau password salah.")
+                    return render(request, "login.html")
 
     return render(request, "login.html", {"error":""})
 
