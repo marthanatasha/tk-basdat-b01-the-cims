@@ -55,7 +55,7 @@ def create_makanan(request):
                     '{request.POST['tingkat_kelaparan']}')
                 """)
 
-                return redirect("makanan:read_makanan")
+                return redirect("makanan:read_makanan_admin")
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data makanan dengan nama {request.POST['nama_makanan']} sudah terdaftar")
 
