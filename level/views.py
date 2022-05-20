@@ -61,7 +61,8 @@ def update_level(request, tingkat_level):
 
     with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM LEVEL WHERE LEVEL='{}'".format(tingkat_level))
-            data = cursor.fetchall()
+            data = dictfetchall(cursor)
+            context = {"data":data[0]}
 
     if request.method == "POST":
         try:
@@ -75,9 +76,7 @@ def update_level(request, tingkat_level):
         except IntegrityError:
             messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['tingkatan_level']} sudah terdaftar")
 
-    if len(data)<=0:
-        return HttpResponse("<h1>Page not found</h1>", status=404)
-    return render(request, "update_level.html", {"data":data[0]})
+    return render(request, "update_level.html", context)
 
 def delete_level(request):
     if request.session["role"] == "pemain":

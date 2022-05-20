@@ -78,7 +78,9 @@ def create_menggunakan_apparel(request):
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
         tokoh = cursor.fetchall()
 
-    return render(request, "create_menggunakan_apparel.html", {"tokoh":tokoh})
+    context = {"tokoh":tokoh}
+
+    return render(request, "create_menggunakan_apparel.html", context)
 
 @csrf_exempt
 def get_apparel(request):
