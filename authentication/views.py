@@ -28,7 +28,7 @@ def homepage(request):
 def login_dan_register(request):
     return render(request, "login_dan_register.html")
 
-def	login(request):
+def login(request):
     if request.method == "POST":
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM ADMIN WHERE username='{}' AND password='{}'".format(request.POST["username"], request.POST["password"]))
@@ -99,8 +99,8 @@ def register_pemain(request):
             cursor.execute(f"""
                 INSERT INTO PEMAIN VALUES 
                 ('{request.POST['username']}',
-                '{request.POST['password']}',
                 '{request.POST['email']}',
+                '{request.POST['password']}',
                 '{request.POST['no_hp']}',
                 '0')
                 """)
