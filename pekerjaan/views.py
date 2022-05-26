@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.db import connection
+from django.db import connection, IntegrityError
 from django.http import JsonResponse, HttpResponse
+from django.contrib import messages
 
 def create_pekerjaan(request):
     try:
@@ -11,7 +12,21 @@ def create_pekerjaan(request):
     if role == "pemain":
         return HttpResponse("<h1>Page not found</h1>", status=404)
 
+    if request.method == "POST":
+        nama_pekerjaan = request.POST["nama_pekerjaan"]
+        base_honor = request.POST["base_honor"]
+
+        if nama_pekerjaan == "" or base_honor == "":
+            messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        else:
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("INSERT INTO PEKERJAAN VALUES ('{}', '{}')".format(nama_pekerjaan, base_honor))
+            except IntegrityError:
+                messages.error(request,"Data pekerjaan dengan nama {} sudah terdaftar".format(nama_pekerjaan))
+
     return render(request, "create_pekerjaan.html")
+
 
 def read_pekerjaan(request):
     try:
@@ -40,6 +55,7 @@ def read_pekerjaan(request):
     else:
         return render(request, "read_pekerjaan.html", {"role":"admin", "pekerjaan":pekerjaan})
 
+
 def update_pekerjaan(request, nama):
     try:
         role = request.session["role"]
@@ -55,7 +71,36 @@ def update_pekerjaan(request, nama):
 
     if len(data)<=0:
         return HttpResponse("<h1>Page not found</h1>", status=404)
+
+    if request.method == "POST":
+        base_honor = request.POST["base_honor"]
+        print(base_honor, nama)
+
+        if base_honor == "":
+            messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE PEKERJAAN SET base_honor={} WHERE nama='{}'".format(base_honor, nama))
+                cursor.execute("SELECT * FROM pekerjaan WHERE nama='{}'".format(nama))
+                data = cursor.fetchall()
+
     return render(request, "update_pekerjaan.html", {"data":data[0]})
+
+
+def delete_pekerjaan(request, nama):
+    try:
+        role = request.session["role"]
+    except:
+        return redirect("/login-dan-register")
+
+    try:
+        with connection.cursor() as cursor:
+             cursor.execute("DELETE FROM PEKERJAAN WHERE nama='{}'".format(nama))
+    except IntegrityError:
+        messages.error(request,"Data pekerjaan dengan nama {} sudah di-refer".format(nama))
+
+    return redirect("/read/pekerjaan")
+
 
 def create_bekerja(request):
     try:
@@ -78,6 +123,7 @@ def create_bekerja(request):
         row = cursor.fetchall()
 
     return render(request, "create_bekerja.html", {"data":row})
+
 
 def read_bekerja(request):
     try:
