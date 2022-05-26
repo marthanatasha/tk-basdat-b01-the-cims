@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from datetime import datetime
 
 def create_menggunakan_barang(request):
     try:
@@ -11,6 +13,27 @@ def create_menggunakan_barang(request):
 
     if role == 'admin':
         return HttpResponse("<h1>Page not found</h1>", status=404)
+
+    if request.method == "POST":
+        nama_tokoh = request.POST["nama_tokoh"]
+        barang = request.POST["barang"]
+
+        if nama_tokoh == "" or barang == "":
+            messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    SELECT b.tingkat_energi, t.energi 
+                    FROM BARANG b, TOKOH t 
+                    WHERE b.id_koleksi='{}' 
+                    AND t.nama='{}' 
+                    AND t.username_pengguna='{}'""".format(barang, nama_tokoh, request.session["username"]))
+                row = cursor.fetchall()
+                if row[0][1] < row[0][0]:
+                    messages.error(request, "Energi tokoh tidak mencukupi sehingga barang tidak dapat digunakan")
+                else:
+                   cursor.execute("INSERT INTO MENGGUNAKAN_BARANG VALUES ('{}', '{}', '{}', '{}')"
+                   .format(request.session["username"], nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), barang)) 
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
@@ -57,7 +80,12 @@ def get_barang(request):
 
     if request.method == "POST":
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id_koleksi FROM koleksi_tokoh WHERE username_pengguna='{}' AND nama_tokoh='{}'".format(request.session['username'], request.POST['nama_tokoh']))
+            cursor.execute("""
+                SELECT kt.id_koleksi FROM KOLEKSI_TOKOH kt  
+                INNER  JOIN BARANG b 
+                ON b.id_koleksi=kt.id_koleksi 
+                AND kt. username_pengguna='{}' 
+                AND kt.nama_tokoh='{}'""".format(request.session['username'], request.POST['nama_tokoh']))
             barang = cursor.fetchall()
         return JsonResponse({'barang': barang})
     return HttpResponse("<h1>Method not allowed</h1>", status=405)
