@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import connection, IntegrityError
 from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
+from datetime import datetime
 
 def create_pekerjaan(request):
     try:
@@ -106,10 +107,36 @@ def create_bekerja(request):
     try:
         role = request.session["role"]
     except:
-        return redirect("/login_dan_register")
+        return redirect("/login-dan-register")
 
     if role == "admin":
         return HttpResponse("<h1>Page not found</h1>", status=404)
+
+    if request.method == "POST":
+        nama_tokoh = request.POST["nama_tokoh"]
+        username_pengguna = request.session["username"]
+        nama_pekerjaan = request.POST["nama_pekerjaan"]
+        base_salary = request.POST["base_salary"]
+
+        with connection.cursor() as cursor:
+            cursor.execute("""SELECT level, keberangkatan_ke 
+                FROM TOKOH t, BEKERJA b
+                WHERE t.nama='{}' 
+                and t.username_pengguna='{}'
+                and b.nama_tokoh=t.nama
+                and b.username_pengguna=t.username_pengguna
+                and b.nama_pekerjaan='{}'
+                ORDER BY keberangkatan_ke DESC"""
+                .format(nama_tokoh, username_pengguna, nama_pekerjaan))
+            row = cursor.fetchall()
+            level = row[0][0]
+            keberangkatan_ke = row[0][1]
+            print(level, keberangkatan_ke)
+            cursor.execute("""
+                INSERT INTO BEKERJA VALUES(
+                '{}', '{}', '{}', '{}', {}, {})"""
+                .format(username_pengguna, nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 
+                    nama_pekerjaan, keberangkatan_ke+1, base_salary*level))
 
     with connection.cursor() as cursor:
         cursor.execute("""
