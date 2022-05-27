@@ -25,6 +25,7 @@ def create_pekerjaan(request):
                     cursor.execute("INSERT INTO PEKERJAAN VALUES ('{}', '{}')".format(nama_pekerjaan, base_honor))
             except IntegrityError:
                 messages.error(request,"Data pekerjaan dengan nama {} sudah terdaftar".format(nama_pekerjaan))
+        return redirect("/read/pekerjaan")
 
     return render(request, "create_pekerjaan.html")
 
@@ -87,6 +88,7 @@ def update_pekerjaan(request, nama):
                     data = cursor.fetchall()
             except IntegrityError:
                 messages.error(request,"Data pekerjaan dengan nama {} sudah terdaftar".format(nama_pekerjaan))
+        return redirect("/read/pekerjaan")
 
     return render(request, "update_pekerjaan.html", {"data":data[0]})
 
@@ -134,6 +136,7 @@ def create_bekerja(request):
                 '{}', '{}', '{}', '{}', {}, {})"""
                 .format(username_pengguna, nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 
                     nama_pekerjaan, keberangkatan_ke+1, int(base_salary)*level))
+        return redirect("/read/bekerja")
 
     with connection.cursor() as cursor:
         cursor.execute("""
