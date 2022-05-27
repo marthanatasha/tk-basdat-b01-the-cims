@@ -33,8 +33,8 @@ def create_menggunakan_barang(request):
                     messages.error(request, "Energi tokoh tidak mencukupi sehingga barang tidak dapat digunakan")
                 else:
                    cursor.execute("INSERT INTO MENGGUNAKAN_BARANG VALUES ('{}', '{}', '{}', '{}')"
-                   .format(request.session["username"], nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), barang))
-            return redirect("/read/menggunakan-barang") 
+                    .format(request.session["username"], nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), barang))
+                   return redirect("/read/menggunakan-barang") 
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
