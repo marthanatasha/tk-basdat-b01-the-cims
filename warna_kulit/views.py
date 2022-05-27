@@ -40,7 +40,9 @@ def create_warna_kulit(request):
         messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan warna_kulit")
         return redirect("/")
     if request.method == "POST":
-        try:
+        if request.POST['kode_warna_kulit'] == "" or request.POST['kode_warna_kulit'].isspace() == True:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        else:
             with connection.cursor() as cursor:
                 cursor.execute(f"""
                     INSERT INTO WARNA_KULIT VALUES 
@@ -48,8 +50,6 @@ def create_warna_kulit(request):
                 """)
 
                 return redirect("warna_kulit:read_warna_kulit")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data warna_kulit dengan nama {request.POST['nama_warna_kulit']} sudah terdaftar")
 
     with connection.cursor() as cursor:
         context = {"role":request.session['role']}

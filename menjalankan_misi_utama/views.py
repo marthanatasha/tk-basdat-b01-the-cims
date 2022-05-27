@@ -124,8 +124,16 @@ def update_menjalankan_misi_utama(request, nama_tokoh, nama_misi):
                     AND nama_misi = '{nama_misi}'
                 """)
                 return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama_pemain")
-        except:
-            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        
+        except Exception as ex:
+            pesan = str(ex).split()
+            errmessage = pesan[0] + " " + pesan[1] + " " + pesan[2]
+            messages.add_message(request, messages.WARNING, errmessage)
+
+            context = {"nama_tokoh":nama_tokoh, "nama_misi":nama_misi}
+            return render(request, "update_menjalankan_misi_utama.html", context)
+        # except:
+        #     messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     context = {"nama_tokoh":nama_tokoh, "nama_misi":nama_misi}
     return render(request, "update_menjalankan_misi_utama.html", context)

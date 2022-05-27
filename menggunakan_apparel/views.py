@@ -71,8 +71,8 @@ def create_menggunakan_apparel(request):
                 """)
 
                 return redirect("menggunakan_apparel:read_menggunakan_apparel_pemain")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data menggunakan_apparel dengan nama {request.POST['nama_menggunakan_apparel']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))

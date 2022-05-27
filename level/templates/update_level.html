@@ -9,32 +9,19 @@
                     <div class="d-flex justify-content-center mb-3">
                         <h4 class="text-center">Update Level</h4>
                     </div>
-                        {% if messages %}
-                            {% for message in messages %}
-                                {% if message.tags == "success" %}
-                                    <div class="alert alert-success" role="alert">
-                                        {{ message }}
-                                    </div>
-                                    {% else %}
-                                    <div class="alert alert-warning" role="alert">
-                                        {{ message }}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
                     <form action="" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-6">
-                                    <input type="number" name="tingkatan_level" class="form-control" id="tingkatan_level" value="{{data.level}}" disabled required>
+                                    <input type="number" name="tingkatan_level" class="form-control" id="tingkatan_level" value="{{data.level}}" disabled>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-6">
-                                    <input type="number" name="jumlah_xp" class="form-control" id="jumlah_xp" value="{{data.xp}}" required>
+                                    <input type="number" name="jumlah_xp" class="form-control" id="jumlah_xp" value="{{data.xp}}">
                                 </div>
                             </div>
                         </div>
