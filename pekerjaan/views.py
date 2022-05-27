@@ -122,24 +122,18 @@ def create_bekerja(request):
         base_salary = request.POST["base_salary"]
 
         with connection.cursor() as cursor:
-            cursor.execute("""SELECT level, keberangkatan_ke 
-                FROM TOKOH t, BEKERJA b
-                WHERE t.nama='{}' 
-                and t.username_pengguna='{}'
-                and b.nama_tokoh=t.nama
-                and b.username_pengguna=t.username_pengguna
-                and b.nama_pekerjaan='{}'
-                ORDER BY keberangkatan_ke DESC"""
+            cursor.execute("SELECT level FROM TOKOH WHERE nama='{}' and username_pengguna='{}'"
+                .format(nama_tokoh, username_pengguna))
+            level = cursor.fetchall()[0][0]
+            cursor.execute("SELECT count(*) FROM BEKERJA WHERE nama_tokoh='{}' and username_pengguna='{}'and nama_pekerjaan='{}'"
                 .format(nama_tokoh, username_pengguna, nama_pekerjaan))
-            row = cursor.fetchall()
-            level = row[0][0]
-            keberangkatan_ke = row[0][1]
-            print(level, keberangkatan_ke)
+            keberangkatan_ke = cursor.fetchall()[0][0]
+            
             cursor.execute("""
                 INSERT INTO BEKERJA VALUES(
                 '{}', '{}', '{}', '{}', {}, {})"""
                 .format(username_pengguna, nama_tokoh, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 
-                    nama_pekerjaan, keberangkatan_ke+1, base_salary*level))
+                    nama_pekerjaan, keberangkatan_ke+1, int(base_salary)*level))
 
     with connection.cursor() as cursor:
         cursor.execute("""
