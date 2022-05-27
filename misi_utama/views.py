@@ -83,8 +83,6 @@ def create_misi_utama(request):
     context = {}
     return render(request, "create_misi_utama.html", context)
 
-def delete_misi_utama(request):
-    return redirect("misi_utama:read_misi_utama_admin")
 
 def delete_misi_utama(request):
     if request.method == "POST":
