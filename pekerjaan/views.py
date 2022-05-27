@@ -76,9 +76,8 @@ def update_pekerjaan(request, nama):
 
     if request.method == "POST":
         base_honor = request.POST["base_honor"]
-        print(base_honor, nama)
 
-        if base_honor == "" or nama_pekerjaan == "":
+        if base_honor == "":
             messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
         else:
             try:
