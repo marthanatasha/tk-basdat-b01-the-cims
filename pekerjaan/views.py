@@ -45,7 +45,7 @@ def read_pekerjaan(request):
                 UNION 
                 SELECT nama_pekerjaan FROM bekerja 
                 UNION 
-                select nama_pekerjaan FROM apparel
+                select nama_pekerjaan FROM apparel WHERE nama_pekerjaan IS NOT NULL
             ) THEN true else false
             END AS deletable 
             FROM pekerjaan p""")
