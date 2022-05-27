@@ -56,8 +56,8 @@ def create_makanan(request):
                 """)
 
                 return redirect("makanan:read_makanan_admin")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data makanan dengan nama {request.POST['nama_makanan']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         context = {}

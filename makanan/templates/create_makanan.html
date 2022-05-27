@@ -7,22 +7,8 @@
             <div class="col-md-5">
                 <div class="new_card p-3 py-5">
                     <div class="d-flex justify-content-center mb-3">
-                        <h4 class="text-center">Buat Misi Utama</h4>
+                        <h4 class="text-center">Buat Makanan</h4>
                     </div>
-                        {% if messages %}
-                            {% for message in messages %}
-                                {% if message.tags == "success" %}
-                                    <div class="alert alert-success" role="alert">
-                                        {{ message }}
-                                    </div>
-                                    {% else %}
-                                    <div class="alert alert-warning" role="alert">
-                                        {{ message }}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-
                         <form action="" method="POST">
                             {% csrf_token %}
                             <div class="form-group">

@@ -76,8 +76,8 @@ def create_misi_utama(request):
                     INSERT INTO MISI_UTAMA VALUES 
                     ('{request.POST['nama_misi']}')""")
                 return redirect("misi_utama:read_misi_utama_admin")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data misi dengan nama {request.POST['nama_misi']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
 
     context = {}
