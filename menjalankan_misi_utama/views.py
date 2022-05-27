@@ -91,8 +91,18 @@ def create_menjalankan_misi_utama(request):
                     #return redirect("menjalankan_misi_utama:create_menjalankan_misi_utama.html")
                     #return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama_pemain")
                 # return redirect("menjalankan_misi_utama:read_menjalankan_misi_utama_pemain")
-        except:
-            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        except Exception as ex:
+            pesan = str(ex).split()
+            errmessage = pesan[0] + " " + pesan[1] + " " + pesan[2]
+            messages.add_message(request, messages.WARNING, errmessage)
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
+                tokoh = cursor.fetchall()
+                cursor.execute ("SELECT nama_misi FROM MISI_UTAMA")
+                misi = dictfetchall(cursor)
+            return render(request, "create_menjalankan_misi_utama.html", {"tokoh":tokoh, "misi":misi})
+        # except:
+        #     messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
