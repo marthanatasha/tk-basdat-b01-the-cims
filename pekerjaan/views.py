@@ -80,10 +80,13 @@ def update_pekerjaan(request, nama):
         if base_honor == "":
             messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
         else:
-            with connection.cursor() as cursor:
-                cursor.execute("UPDATE PEKERJAAN SET base_honor={} WHERE nama='{}'".format(base_honor, nama))
-                cursor.execute("SELECT * FROM pekerjaan WHERE nama='{}'".format(nama))
-                data = cursor.fetchall()
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute("UPDATE PEKERJAAN SET base_honor={} WHERE nama='{}'".format(base_honor, nama))
+                    cursor.execute("SELECT * FROM pekerjaan WHERE nama='{}'".format(nama))
+                    data = cursor.fetchall()
+            except IntegrityError:
+                messages.error(request,"Data pekerjaan dengan nama {} sudah terdaftar".format(nama_pekerjaan))
 
     return render(request, "update_pekerjaan.html", {"data":data[0]})
 
