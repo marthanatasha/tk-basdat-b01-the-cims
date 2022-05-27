@@ -48,13 +48,21 @@ def create_makan(request):
                 """)
 
                 return redirect("makan:read_makan_pemain")
-        # except Exception as ex:
-        #     pesan = str(ex)
-        #     messages.add_message(request, messages.WARNING, pesan)
-        #     return redirect("makan:read_makan_pemain")
+        except Exception as ex:
+            pesan = str(ex).split()
+            errmessage = pesan[0] + " " + pesan[1] + " " + pesan[2]
+            messages.add_message(request, messages.WARNING, errmessage)
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
+                tokoh = cursor.fetchall()
+                cursor.execute ("SELECT nama FROM MAKANAN")
+                makanan = dictfetchall(cursor)
 
-        except:
-            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+            return render(request, "create_makan.html", {"tokoh":tokoh, "makanan":makanan})
+            # return redirect("makan:read_makan_pemain")
+
+        # except Exception as ex:
+        #     messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))

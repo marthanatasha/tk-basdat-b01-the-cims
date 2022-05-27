@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-6">
-                                    <input type="text" name="update_status" class="form-control" id="update_status" placeholder="Status" required>
+                                    <input type="text" name="update_status" class="form-control" id="update_status" placeholder="Status" required oninvalid="setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu.')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                         </div>
