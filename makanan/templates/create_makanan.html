@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="padding-bottom: 3%; display: flex; align-items: center; justify-content: center;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -14,28 +21,28 @@
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="text" name="nama_makanan" class="form-control" id="nama_makanan" placeholder="Nama Makanan" required>
+                                        <input type="text" name="nama_makanan" class="form-control" id="nama_makanan" placeholder="Nama Makanan">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga" required>
+                                        <input type="number" name="harga" class="form-control" id="harga" placeholder="Harga">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="tingkat_energi" class="form-control" id="tingkat_energi" placeholder="Tingkat Energi" required>
+                                        <input type="number" name="tingkat_energi" class="form-control" id="tingkat_energi" placeholder="Tingkat Energi">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="tingkat_kelaparan" class="form-control" id="tingkat_kelaparan" placeholder="Tingkat Kelaparan" required>
+                                        <input type="number" name="tingkat_kelaparan" class="form-control" id="tingkat_kelaparan" placeholder="Tingkat Kelaparan">
                                     </div>
                                 </div>
                             </div>

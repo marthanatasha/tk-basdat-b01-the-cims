@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="padding-bottom: 3%; display: flex; align-items: center; justify-content: center;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -14,77 +21,77 @@
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="text" name="nama_misi" class="form-control" id="nama_misi" placeholder="Nama Misi Utama" required>
+                                        <input type="text" name="nama_misi" class="form-control" id="nama_misi" placeholder="Nama Misi Utama">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="efek_energi" class="form-control" id="efek_energi" placeholder="Efek Energi" required>
+                                        <input type="number" name="efek_energi" class="form-control" id="efek_energi" placeholder="Efek Energi">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="efek_hub_sosial" class="form-control" id="efek_hub_sosial" placeholder="Efek Hubungan Sosial" required>
+                                        <input type="number" name="efek_hub_sosial" class="form-control" id="efek_hub_sosial" placeholder="Efek Hubungan Sosial">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="efek_kelaparan" class="form-control" id="efek_kelaparan" placeholder="Efek Kelaparan" required>
+                                        <input type="number" name="efek_kelaparan" class="form-control" id="efek_kelaparan" placeholder="Efek Kelaparan">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="syarat_energi" class="form-control" id="syarat_energi" placeholder="Syarat Energi" required>
+                                        <input type="number" name="syarat_energi" class="form-control" id="syarat_energi" placeholder="Syarat Energi">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="syarat_hub_sosial" class="form-control" id="syarat_hub_sosial" placeholder="Syarat Hubungan Sosial" required>
+                                        <input type="number" name="syarat_hub_sosial" class="form-control" id="syarat_hub_sosial" placeholder="Syarat Hubungan Sosial">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="syarat_kelaparan" class="form-control" id="syarat_kelaparan" placeholder="Syarat Kelaparan" required>
+                                        <input type="number" name="syarat_kelaparan" class="form-control" id="syarat_kelaparan" placeholder="Syarat Kelaparan">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="time" name="completion_time" class="form-control" id="completion_time" placeholder="Completion Time" required>
+                                        <input type="time" name="completion_time" class="form-control" id="completion_time" placeholder="Completion Time">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="reward_koin" class="form-control" id="reward_koin" placeholder="Reward Koin" required>
+                                        <input type="number" name="reward_koin" class="form-control" id="reward_koin" placeholder="Reward Koin">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="number" name="reward_xp" class="form-control" id="reward_xp" placeholder="Reward XP" required>
+                                        <input type="number" name="reward_xp" class="form-control" id="reward_xp" placeholder="Reward XP">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row mt-4 d-flex justify-content-center">
                                     <div class="col-md-6">
-                                        <input type="text" name="deskripsi" class="form-control" id="deskripsi" placeholder="Deskripsi" required>
+                                        <input type="text" name="deskripsi" class="form-control" id="deskripsi" placeholder="Deskripsi">
                                     </div>
                                 </div>
                             </div>

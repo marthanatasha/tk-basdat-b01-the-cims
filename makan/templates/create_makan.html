@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="height: 76vh; display: flex; align-items: center; justify-content: center; padding-bottom: 3%;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -14,7 +21,7 @@
                     <div class="form-group">
                       <div class="row mt-3 d-flex justify-content-center">
                           <div class="col-md-6">
-                            <select id="nama_tokoh" name="nama_tokoh" class="form-control">
+                            <select id="nama_tokoh" name="nama_tokoh" class="form-control" required oninvalid="setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu.')" oninput="setCustomValidity('')">
                               <option value="">--Pilih Nama Tokoh--</option>
                               {% for t in tokoh %}
                               <option value="{{ t.0 }}">{{ t.0 }}</option>
@@ -26,7 +33,7 @@
                     <div class="form-group">
                       <div class="row mt-3 d-flex justify-content-center">
                           <div class="col-md-6">
-                            <select id="nama_makanan" name="nama_makanan" class="form-control">
+                            <select id="nama_makanan" name="nama_makanan" class="form-control" required oninvalid="setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu.')" oninput="setCustomValidity('')">
                               <option value="">--Pilih Makanan--</option>
                               {% for m in makanan %}
                               <option value="{{ m.nama }}">{{ m.nama }}</option>
