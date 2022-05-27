@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="padding-bottom: 3%; display: flex; align-items: center; justify-content: center;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -9,33 +16,19 @@
                     <div class="d-flex justify-content-center mb-3">
                         <h4 class="text-center">Update Tokoh</h4>
                     </div>
-                    {% if messages %}
-                        {% for message in messages %}
-                            {% if message.tags == "success" %}
-                                <div class="alert alert-success" role="alert">
-                                    {{ message }}
-                                </div>
-                                {% else %}
-                                <div class="alert alert-warning" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-
                     <form action="" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <input type="text" name="nama" class="form-control" id="nama" value="{{ nama_tokoh_update }}" disabled required>
+                                    <input type="text" name="nama" class="form-control" id="nama" value="{{ nama_tokoh_update }}" disabled>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <select class="form-control" name="rambut_baru" id="rambut_baru" required>
+                                    <select class="form-control" name="rambut_baru" id="rambut_baru">
                                         <option value="" selected>--Pilih Rambut--</option>
                                         {% for rambut in list_rambut %}
                                             <option value="{{ rambut.id_koleksi }}">{{ rambut.id_koleksi }}</option>
@@ -47,7 +40,7 @@
                         <div class="form-group">
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <select class="form-control" name="mata_baru" id="mata_baru" required>
+                                    <select class="form-control" name="mata_baru" id="mata_baru">
                                         <option value="" selected>--Pilih Mata--</option>
                                         {% for mata in list_mata %}
                                             <option value="{{ mata.id_koleksi }}">{{ mata.id_koleksi }}</option>
@@ -59,7 +52,7 @@
                         <div class="form-group">
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <select class="form-control" name="rumah_baru" id="rumah_baru" required>
+                                    <select class="form-control" name="rumah_baru" id="rumah_baru">
                                         <option value="" selected>--Pilih Rumah--</option>
                                         {% for rumah in list_rumah %}
                                             <option value="{{ rumah.id_koleksi }}">{{ rumah.id_koleksi }}</option>

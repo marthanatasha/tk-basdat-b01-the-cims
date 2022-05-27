@@ -48,8 +48,8 @@ def create_level(request):
                 """)
 
                 return redirect("level:read_level")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['tingkatan_level']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         context = {}
@@ -73,8 +73,8 @@ def update_level(request, tingkat_level):
                     WHERE LEVEL = '{tingkat_level}'
                 """)
                 return redirect("level:read_level")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['tingkatan_level']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     return render(request, "update_level.html", context)
 
@@ -83,13 +83,11 @@ def delete_level(request):
         return redirect("/")
 
     if request.method == "POST":
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(f"""
-                    DELETE FROM LEVEL 
-                    WHERE LEVEL = '{request.POST['tingkat_level']}'
-                """)
-                return redirect("level:read_level")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data level dengan nama '{request.POST['tingkat_level']}' sudah direfer oleh setidaknya 1 tokoh")
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+                DELETE FROM LEVEL 
+                WHERE LEVEL = '{request.POST['tingkat_level']}'
+            """)
+            return redirect("level:read_level")
+        
 

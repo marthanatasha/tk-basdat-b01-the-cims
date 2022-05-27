@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="padding-bottom: 5%; display: flex; align-items: center; justify-content: center; padding-top: 3%;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -9,25 +16,12 @@
                     <div class="d-flex justify-content-center mb-3">
                         <h4 class="text-center">Buat Warna Kulit</h4>
                     </div>
-                    {% if messages %}
-                        {% for message in messages %}
-                            {% if message.tags == "success" %}
-                                <div class="alert alert-success" role="alert">
-                                    {{ message }}
-                                </div>
-                                {% else %}
-                                <div class="alert alert-warning" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
                     <form action="" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-6">
-                                    <input type="type" name="kode_warna_kulit" class="form-control" id="kode_warna_kulit" placeholder="Kode Warna Kulit" required>
+                                    <input type="type" name="kode_warna_kulit" class="form-control" id="kode_warna_kulit" placeholder="Kode Warna Kulit">
                                 </div>
                             </div>
                         </div>

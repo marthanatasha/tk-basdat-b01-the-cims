@@ -63,8 +63,8 @@ def create_tokoh(request):
                 """)
 
                 return redirect("tokoh:read_tokoh_pemain")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data tokoh dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT KODE FROM WARNA_KULIT")
@@ -132,8 +132,9 @@ def update_tokoh(request, nama_tokoh):
                     WHERE NAMA = '{nama_tokoh}'
                 """)
                 return redirect("tokoh:read_tokoh_pemain")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data level dengan nama {request.POST['nama_tokoh']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+            
     context["nama_tokoh_update"] = nama_tokoh
     context["role"] = request.session['role']
 

@@ -48,8 +48,8 @@ def create_warna_kulit(request):
                 """)
 
                 return redirect("warna_kulit:read_warna_kulit")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data warna_kulit dengan nama {request.POST['nama_warna_kulit']} sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         context = {"role":request.session['role']}

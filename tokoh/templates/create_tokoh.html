@@ -1,6 +1,13 @@
 {% extends "navbar.html" %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{%endif%}
 <div class="container-fluid" style="padding-bottom: 3%; display: flex; align-items: center; justify-content: center;">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -9,26 +16,12 @@
                     <div class="d-flex justify-content-center mb-3">
                         <h4 class="text-center">Buat Tokoh</h4>
                     </div>
-                    {% if messages %}
-                        {% for message in messages %}
-                            {% if message.tags == "success" %}
-                                <div class="alert alert-success" role="alert">
-                                    {{ message }}
-                                </div>
-                                {% else %}
-                                <div class="alert alert-warning" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-
                     <form action="" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
                             <div class="row mt-4 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <input type="text" name="nama_tokoh" class="form-control" id="nama_tokoh" placeholder="Nama Tokoh" required>
+                                    <input type="text" name="nama_tokoh" class="form-control" id="nama_tokoh" placeholder="Nama Tokoh">
                                 </div>
                             </div>
                         </div>
@@ -36,7 +29,7 @@
                         <div class="form-group">
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                                         <option value="">--Pilih Jenis Kelamin--</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
@@ -48,7 +41,7 @@
                         <div class="form-group">
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-md-7">
-                                    <select class="form-control" name="warna_kulit" id="warna_kulit"required>
+                                    <select class="form-control" name="warna_kulit" id="warna_kulit">
                                         <option value="" selected>--Pilih Warna Kulit--</option>
                                         {% for warna_kulit_1 in list_warna_kulit %}
                                             <option value="{{ warna_kulit_1.0 }}">{{ warna_kulit_1.0 }}</option>
