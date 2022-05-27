@@ -41,9 +41,6 @@ def read_makanan_pemain(request):
 
 @csrf_exempt
 def create_makanan(request):
-    # if request.session['role'] == 'pemain':
-    #     messages.add_message(request, messages.WARNING, f"Hanya admin yang dapat menambahkan level")
-    #     return redirect("/")
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
@@ -79,8 +76,8 @@ def update_makanan(request, nama_makanan):
                     WHERE nama = '{nama_makanan}'
                 """)
                 return redirect("makanan:read_makanan_admin")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data makanan tersebut sudah terdaftar")
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     if len(data)<=0:
         return HttpResponse("<h1>Page not found</h1>", status=404)

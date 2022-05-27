@@ -36,9 +36,6 @@ def read_makan_pemain(request):
 
 @csrf_exempt
 def create_makan(request):
-    # if request.session['role'] == 'admin':
-    #     messages.add_message(request, messages.WARNING, f"Hanya pemain yang dapat menambahkan menggunakan_apparel")
-    #     return redirect("/")
     if request.method == "POST":
         try:
             with connection.cursor() as cursor:
@@ -51,8 +48,13 @@ def create_makan(request):
                 """)
 
                 return redirect("makan:read_makan_pemain")
-        except IntegrityError:
-            messages.add_message(request, messages.WARNING, "Data makan dengan nama {request.POST['nama_makan']} sudah terdaftar")
+        # except Exception as ex:
+        #     pesan = str(ex)
+        #     messages.add_message(request, messages.WARNING, pesan)
+        #     return redirect("makan:read_makan_pemain")
+
+        except:
+            messages.add_message(request, messages.WARNING, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT nama FROM tokoh WHERE username_pengguna='{}'".format(request.session['username']))
