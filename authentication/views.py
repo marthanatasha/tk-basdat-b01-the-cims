@@ -22,7 +22,11 @@ def homepage(request):
         args["username"] = request.session["username"]
         args["email"] = request.session["email"]
         args["no_hp"] = request.session["no_hp"]
-        args["koin"] = request.session["koin"]
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT koin FROM PEMAIN WHERE username='{}'".format(request.session["username"]))
+            args["koin"] = cursor.fetchall()[0][0]
+
     return render(request, "homepage.html", args)
 
 def login_dan_register(request):
@@ -45,7 +49,6 @@ def login(request):
                     request.session["username"] = row[0][0]
                     request.session["email"] = row[0][1]
                     request.session["no_hp"] = row[0][3]
-                    request.session["koin"] = row[0][4]
                     request.session["role"] = "pemain"
                     messages.success(request, "Login berhasil dilakukan.")
                     return redirect("/")
@@ -110,7 +113,6 @@ def register_pemain(request):
                 request.session["username"] = row[0][0]
                 request.session["email"] = row[0][1]
                 request.session["no_hp"] = row[0][3]
-                request.session["koin"] = row[0][4]
                 request.session["role"] = "pemain"
                 messages.success(request, "Login berhasil dilakukan.")
                 return redirect("/")
